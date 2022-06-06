@@ -176,6 +176,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ckdef_code_prefer.h"
+				>
+			</File>
+			<File
 				RelativePath=".\ctzidn.h"
 				>
 			</File>

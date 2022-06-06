@@ -64,6 +64,7 @@ namespace opengb{
 			//cid_15to18(_15cid)
 			//cid_18to15(_18cid)
 			//bool VerifyCId(_18cid)
+			//Sex get_Sex()
 			
 			CitizenId(){memset(&m_cid,0,sizeof(S_CitizenId));}
 			CitizenId(

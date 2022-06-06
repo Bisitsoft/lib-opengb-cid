@@ -6,19 +6,12 @@
 
 ## 实现 Implementations
 
-### cizidn.h
+当前是用的IDE是`Visual C++ 2008 Express Edition`。
 
-这个头文件是用于实现身份证号类的。 This header file is for implement the class of ID number.
-
-* `opengb::cid`
-
-### mod11_2.h mod11_2.cpp
-
-这个头文件是用于实现用于计算身份证号码的校验码的。 This header file is for implement the function for calculate the check code of ID number.
-实现基于`GB 11643-1999`中所叙述的`ISO 7064:1983`中的`MOD 11-2`算法。 This header file is implement the algorithm of `ISO 7064:1983` MOD 11-2 which is described in `GB 11643-1999`.
+[库解释](./doc/zh-CN/lib-explain.md)
 
 ---
 
-Copyright (c) [Bisitsoft](https://www.ourorangenet.com) 2022.
+**Copyright (c) [Bisitsoft](https://www.ourorangenet.com) 2022.**
 
-View code on [Github](https://github.com/Bisitsoft/lib-opengb-cid).
+View code on **[Github](https://github.com/Bisitsoft/lib-opengb-cid).**

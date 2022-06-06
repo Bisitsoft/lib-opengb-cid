@@ -1,7 +1,7 @@
 #include <stdio.h>
 
-#define OPENGB_CODE_PERFER_FAST
-//#define OPENGB_CODE_PERFER_TIGHT
+#define OPENGB_CODE_PREFER_FAST
+//#define OPENGB_CODE_PREFER_TIGHT
 #include "opengb_cid_rcmd.h"
 
 bool read_cid_number(const int length, unsigned long long &_out_result);
@@ -13,7 +13,7 @@ int main(){
 	unsigned long long _out;
 	OPENGB_CID_CHECKSUM_TYPE checksum;
 	
-	printf("%s\n",opengb::cizidn::Not18CIdException("A"));
+	//printf("%s\n",opengb::cizidn::Not18CIdException("A"));
 	
 	opengb::cizidn::CitizenId cid;
 	

@@ -4,8 +4,8 @@
 #if !defined(__opengb_cid_rcmd_h_)
 	#define __opengb_cid_rcmd_h_
 	
-	#if !defined(OPENGB_CODE_PERFER_FAST) && !defined(OPENGB_CODE_PERFER_TIGHT)
-		#define OPENGB_CODE_PERFER_FAST
+	#if !defined(OPENGB_CODE_PREFER_FAST) && !defined(OPENGB_CODE_PREFER_TIGHT)
+		#define OPENGB_CODE_PREFER_FAST
 	#endif
 	
 	#include "ctzidn.h"
