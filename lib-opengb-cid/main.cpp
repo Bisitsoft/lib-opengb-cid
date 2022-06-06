@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 #define OPENGB_CODE_PERFER_FAST
-#define OPENGB_CODE_PERFER_TIGHT
+//#define OPENGB_CODE_PERFER_TIGHT
 #include "opengb_cid_rcmd.h"
 
 bool read_cid_number(const int length, unsigned long long &_out_result);

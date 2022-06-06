@@ -184,10 +184,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\opengb_cid_dbg.h"
-				>
-			</File>
-			<File
 				RelativePath=".\opengb_cid_rcmd.h"
 				>
 			</File>
