@@ -172,11 +172,23 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath=".\areacode.h"
+				>
+			</File>
+			<File
 				RelativePath=".\ctzidn.h"
 				>
 			</File>
 			<File
 				RelativePath=".\mod11_2.h"
+				>
+			</File>
+			<File
+				RelativePath=".\opengb_cid_dbg.h"
+				>
+			</File>
+			<File
+				RelativePath=".\opengb_cid_rcmd.h"
 				>
 			</File>
 			<File

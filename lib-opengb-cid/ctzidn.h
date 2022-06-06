@@ -1,25 +1,12 @@
+// Citizen Identification Number
 // GB 11643-1999
 
-#ifndef __cizidn_h_
+#if !defined(__cizidn_h_)
 	#define __cizidn_h_
 	
 	#include <cstdlib>
-
-/*
-dic = {int AreaCode(MainKey), AreaCodeDescription[] AreaCodeDescriptions}
-class AreaCodeDescription{DocCodeEnum DocCode, LinkedList<AreaInfo> Nodes}
-class AreaInfo{AreaLevelEnum AreaLevel, string Name}
-
-AreaCode即6位地区编码。
-DocCodeEnum是枚举值，用于表示当前内容所属标准、或者公文等。
-
-
-AreaLevelEnum 不带“级”字。两个字节，前一个字节表示等级，后一个字节表示具体行政区划（依据《中华人民共和国宪法（自2018年3月11日修正案）》）：
-                          省、自治区、直辖市、特别行政区*,市*,区*、自治州、县、自治县,乡、民族乡、镇；；；；；；；；；；； 自治州、县、自治县、市,市辖区、县级市、县、自治县、自治旗、林区、特区???
-                          注意自治区、自治州、自治县的集合关系，不存在市-自治县。
-AreaInfo.Name 应当不带地区级别名称。
-GetFullAreaName(AreaInfo)->EnumName(CultureInfo,AreaLevelEnum)+AreaInfo.Name
-*/
+	
+	#include "opengbex.h"
 
 /*
 可以选择的存储方式：
@@ -35,9 +22,6 @@ GetFullAreaName(AreaInfo)->EnumName(CultureInfo,AreaLevelEnum)+AreaInfo.Name
 		紧凑位表示法：行政区共34个，次级区编号最多有X（需统计）个，5+14=19位表示区号。 <- 不易维护与使用
 */
 
-namespace opengb{
-	namespace cid{
-	
 	#define OPENGB_CID_18CID_LENGTH 18
 //	#define OPENGB_CID_18CID_LENGTH_1 17
 	#define OPENGB_CID_18CID_AREA_LENGTH 6
@@ -52,12 +36,13 @@ namespace opengb{
 	#define OPENGB_CID_15CID_ORDER_LENGTH 3
 	#define OPENGB_CID_15CID_CHECKSUM_LENGTH 0
 		
-		typedef OPENGB_CID_AREA_TYPE		unsigned long int;
-		typedef OPENGB_CID_BIRTHDAY_TYPE	unsigned long int;
-		typedef OPENGB_CID_ORDER_TYPE		unsigned short int;
-		typedef OPENGB_CID_CHECKSUM_TYPE	unsigned char;
-		
-		class 
+typedef unsigned long int	OPENGB_CID_AREA_TYPE;
+typedef unsigned long int	OPENGB_CID_BIRTHDAY_TYPE;
+typedef unsigned short int	OPENGB_CID_ORDER_TYPE;
+typedef unsigned char		OPENGB_CID_CHECKSUM_TYPE;
+
+namespace opengb{
+	namespace cizidn{
 		
 		typedef struct{
 			OPENGB_CID_AREA_TYPE area;
@@ -67,17 +52,18 @@ namespace opengb{
 		}S_CitizenId;
 		
 		class CitizenId{
-#warning Need 350
+		private:
 		public:
 			S_CitizenId m_cid;
 			
-			bool IsCId(){...; FindAreaCodeVerifyCId}
-			ToCId(string)
-			To18CId(string)
-			To18CId(_id)
-			cid_15to18(_15cid)
-			cid_18to15(_18cid)
-			bool VerifyCId(_18cid)
+//#warning Commented!
+			//bool IsCId(){...; FindAreaCodeVerifyCId}
+			//ToCId(string)
+			//To18CId(string)
+			//To18CId(_id)
+			//cid_15to18(_15cid)
+			//cid_18to15(_18cid)
+			//bool VerifyCId(_18cid)
 			
 			CitizenId(){memset(&m_cid,0,sizeof(S_CitizenId));}
 			CitizenId(
@@ -92,13 +78,14 @@ namespace opengb{
 				m_cid.order=order;
 				m_cid.checksum=checksum;
 				
+//#warning Commented!
 				if(check_cid){
-					if(!IsCid){
-						throw ;
-					}
+					//if(!IsCid){
+					//	throw ;
+					//}
 				}
 			}
-		}
+		};
 		
 	}
 }
