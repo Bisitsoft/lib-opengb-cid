@@ -1,9 +1,8 @@
 #include <stdio.h>
 
-#define OPENGB_CODE_PREFER_FAST
-//#define OPENGB_CODE_PREFER_TIGHT
+//#define OPENGB_CODE_PREFER_FAST
+#define OPENGB_CODE_PREFER_TIGHT
 #include "ctzidn.h"
-#include "mod11_2.h"
 #include "opengbex.h"
 
 bool read_cid_number(const int length, unsigned long long *_out_result);

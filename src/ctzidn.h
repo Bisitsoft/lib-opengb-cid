@@ -8,7 +8,6 @@
 	#include <stdbool.h>
 	#include <stdlib.h>
 	
-	#include "mod11_2.h"
 	#include "opengbex.h"
 
 /*

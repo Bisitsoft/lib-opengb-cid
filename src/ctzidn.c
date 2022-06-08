@@ -36,6 +36,13 @@ bool VerifyCIdChecksum(const CitizenId *_18cid){
 }
 
 #if defined(OPENGB_CODE_PREFER_FAST)
+const OPENGB_MOD11_2_W_LIST_TYPE _mod11_2_w_list[OPENGB_CID_18CID_LENGTH] = {1,2,4,8,5,10,9,7,3,6,1,2,4,8,5,10,9,7};
+const OPENGB_CID_CHECKSUM_TYPE _mod11_2_trs_list[OPENGB_MOD11_2_MOD_CONSTANT_NUMBER]={1,0,10,9,8,7,6,5,4,3,2}; //transform list
+#elif defined(OPENGB_CODE_PREFER_TIGHT)
+const OPENGB_MOD11_2_W_LIST_TYPE _mod11_2_w_list[10] = {1,2,4,8,5,10,9,7,3,6};
+#endif
+
+#if defined(OPENGB_CODE_PREFER_FAST)
 
 OPENGB_CID_CHECKSUM_TYPE _gb11643_1999_mod11_2_fst(const CitizenId *_18cid){
 	unsigned int sum=0;
@@ -71,13 +78,6 @@ OPENGB_CID_CHECKSUM_TYPE _gb11643_1999_mod11_2_fst(const CitizenId *_18cid){
 	r=_mod11_2_trs_list[sum%OPENGB_MOD11_2_MOD_CONSTANT_NUMBER];
 	return r==OPENGB_MOD11_2_MOD_CONSTANT_NUMBER?0:r;
 }
-
-#if defined(OPENGB_CODE_PREFER_FAST)
-const OPENGB_MOD11_2_W_LIST_TYPE _mod11_2_w_list[OPENGB_CID_18CID_LENGTH] = {1,2,4,8,5,10,9,7,3,6,1,2,4,8,5,10,9,7};
-const OPENGB_CID_CHECKSUM_TYPE _mod11_2_trs_list[OPENGB_MOD11_2_MOD_CONSTANT_NUMBER]={1,0,10,9,8,7,6,5,4,3,2}; //transform list
-#elif defined(OPENGB_CODE_PREFER_TIGHT)
-const OPENGB_MOD11_2_W_LIST_TYPE _mod11_2_w_list[10] = {1,2,4,8,5,10,9,7,3,6};
-#endif
 
 #elif defined(OPENGB_CODE_PREFER_TIGHT)
 
