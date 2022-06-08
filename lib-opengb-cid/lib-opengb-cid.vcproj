@@ -162,7 +162,15 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\ctzidn.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\main.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\mod11_2.cpp"
 				>
 			</File>
 		</Filter>
@@ -184,11 +192,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ctzidn_def.h"
+				>
+			</File>
+			<File
 				RelativePath=".\mod11_2.h"
 				>
 			</File>
 			<File
-				RelativePath=".\opengb_cid_rcmd.h"
+				RelativePath=".\mod11_2_def.h"
+				>
+			</File>
+			<File
+				RelativePath=".\opengb_cid_switches.h"
 				>
 			</File>
 			<File

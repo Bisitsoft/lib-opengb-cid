@@ -2,50 +2,60 @@
 
 #define OPENGB_CODE_PREFER_FAST
 //#define OPENGB_CODE_PREFER_TIGHT
-#include "opengb_cid_rcmd.h"
+#include "ctzidn.h"
+#include "mod11_2.h"
+#include "opengbex.h"
 
 bool read_cid_number(const int length, unsigned long long &_out_result);
 bool read_cid_checksum(OPENGB_CID_CHECKSUM_TYPE &_out_result);
 char cid_checksum_to_char(OPENGB_CID_CHECKSUM_TYPE checksum);
 void clear_stdin();
 
+/*
+GB11643-1999文档的附录B中给出的身份证号例子：
+11010519491231002X
+440524188001010014
+*/
+
 int main(){
 	unsigned long long _out;
 	OPENGB_CID_CHECKSUM_TYPE checksum;
 	
-	//printf("%s\n",opengb::cizidn::Not18CIdException("A"));
+	//printf("%s\n",opengb::ctzidn::Not18CIdException("A"));
 	
-	opengb::cizidn::CitizenId cid;
+	opengb::ctzidn::S_CitizenId _cid;
 	
 	while(true){
 		printf("请输入一个18位身份证号码: ");
 		clear_stdin();
 		
 		if(!read_cid_number(OPENGB_CID_18CID_AREA_LENGTH, _out)) { clear_stdin(); continue; }
-		cid.m_cid.area = (OPENGB_CID_AREA_TYPE)_out;
+		_cid.area = (OPENGB_CID_AREA_TYPE)_out;
 		
 		if(!read_cid_number(OPENGB_CID_18CID_BIRTHDAY_LENGTH, _out)) { clear_stdin(); continue; }
-		cid.m_cid.birthday = (OPENGB_CID_BIRTHDAY_TYPE)_out;
+		_cid.birthday = (OPENGB_CID_BIRTHDAY_TYPE)_out;
 		
 		if(!read_cid_number(OPENGB_CID_18CID_ORDER_LENGTH, _out)) { clear_stdin(); continue; }
-		cid.m_cid.order = (OPENGB_CID_ORDER_TYPE)_out;
+		_cid.order = (OPENGB_CID_ORDER_TYPE)_out;
 		
-		if(!read_cid_checksum(cid.m_cid.checksum)) { clear_stdin(); continue; }
+		if(!read_cid_checksum(checksum)) { clear_stdin(); continue; }
+		_cid.checksum = checksum;
+		opengb::ctzidn::CitizenId cid(_cid);
 		
 		checksum = _OPENGB_MOD11_2_METHOD(cid);
 		
 		printf(
 			"输入的身份证号是：%06d%08d%03d%c\n",
-			cid.m_cid.area,
-			cid.m_cid.birthday,
-			cid.m_cid.order,
-			cid_checksum_to_char(cid.m_cid.checksum)
+			cid.get_Area(),
+			cid.get_Birthday(),
+			cid.get_Order(),
+			cid_checksum_to_char(cid.get_Checksum())
 		);
 		printf(
 			"输入的身份证号中的校验码（末尾数字）是%c，校验码是%c，校验算法结果：%s\n",
-			cid_checksum_to_char(cid.m_cid.checksum),
+			cid_checksum_to_char(cid.get_Checksum()),
 			cid_checksum_to_char(checksum),
-			checksum==cid.m_cid.checksum?"正确√":"错误×"
+			checksum==cid.get_Checksum()?"正确√":"错误×"
 		);
 	}
 

@@ -6,7 +6,7 @@
 
 ## 实现 Implementations
 
-当前是用的IDE是`Visual C++ 2008 Express Edition`。
+**当前是用的IDE是`Visual C++ 2008 Express Edition`。**
 
 [库解释](./doc/zh-CN/lib-explain.md)
 

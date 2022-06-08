@@ -2,8 +2,9 @@
 
 #if !defined(__mod11_2_h_)
 	#define __mod11_2_h_
+	#include "opengb_cid_switches.h"
 	
-	#include "ckdef_code_prefer.h"
+	#include "mod11_2_def.h"
 	
 	#include <cmath>
 	
@@ -11,81 +12,20 @@
 	#include "opengbex.h"
 	
 namespace opengb{
-
-	#define _OPENGB_MOD11_2_MOD_CONSTANT_NUMBER 11
-
+	
 	#if defined(OPENGB_CODE_PREFER_FAST)
-		#define OPENGB_MOD11_2_W_LIST_TYPE unsigned int
 	const OPENGB_MOD11_2_W_LIST_TYPE _mod11_2_w_list[OPENGB_CID_18CID_LENGTH] = {1,2,4,8,5,10,9,7,3,6,1,2,4,8,5,10,9,7};
+	const OPENGB_CID_CHECKSUM_TYPE _mod11_2_trs_list[OPENGB_MOD11_2_MOD_CONSTANT_NUMBER]={1,0,10,9,8,7,6,5,4,3,2}; //transform list
 	#elif defined(OPENGB_CODE_PREFER_TIGHT)
-		#define OPENGB_MOD11_2_W_LIST_TYPE unsigned char
 	const OPENGB_MOD11_2_W_LIST_TYPE _mod11_2_w_list[10] = {1,2,4,8,5,10,9,7,3,6};
 	#endif
-
+	
 	#if defined(OPENGB_CODE_PREFER_FAST)
 		#define _OPENGB_MOD11_2_METHOD(_18cid) (opengb::_gb11643_1999_mod11_2_fst(_18cid))
-	OPENGB_CID_CHECKSUM_TYPE _gb11643_1999_mod11_2_fst(opengb::cizidn::CitizenId _18cid){
-		unsigned int sum=0;
-		const OPENGB_MOD11_2_W_LIST_TYPE *ptr_w=_mod11_2_w_list+1;
-		int i, iend;
-		div_t div_result;
-		OPENGB_CID_CHECKSUM_TYPE r;
-		
-//#warning Commented!
-		//if(!_18cid.Is18CId()){
-		//	throw ;
-		//}
-		
-		for(i=0, iend=OPENGB_CID_18CID_ORDER_LENGTH;i<iend;i++){
-			div_result = div(_18cid.m_cid.order,10);
-//#warning 测试此处指针是否比直接用数组快
-			sum+=div_result.rem*(*(ptr_w++));
-			_18cid.m_cid.order=div_result.quot;
-		}
-		for(iend+=OPENGB_CID_18CID_BIRTHDAY_LENGTH;i<iend;i++){
-			div_result = div(_18cid.m_cid.birthday,10);
-			sum+=div_result.rem*(*(ptr_w++));
-			_18cid.m_cid.birthday=div_result.quot;
-		}
-		for(iend+=OPENGB_CID_18CID_AREA_LENGTH;i<iend;i++){
-			div_result = div(_18cid.m_cid.area,10);
-			sum+=div_result.rem*(*(ptr_w++));
-			_18cid.m_cid.area=div_result.quot;
-		}
-		
-		r=_OPENGB_MOD11_2_MOD_CONSTANT_NUMBER-(sum-1)%_OPENGB_MOD11_2_MOD_CONSTANT_NUMBER;
-		return r==_OPENGB_MOD11_2_MOD_CONSTANT_NUMBER?0:r;
-	}
+	ctzidn::OPENGB_CID_CHECKSUM_TYPE _gb11643_1999_mod11_2_fst(OPENGB_MOD11_2_METHOD_ARG_TYPE _18cid);
 	#elif defined(OPENGB_CODE_PREFER_TIGHT)
 		#define _OPENGB_MOD11_2_METHOD(_18cid) (opengb::_gb11643_1999_mod11_2_tt(_18cid))
-	OPENGB_CID_CHECKSUM_TYPE _gb11643_1999_mod11_2_tt(opengb::cizidn::CitizenId _18cid){
-		unsigned char i, sum=0;
-		div_t div_result;
-		
-//#warning Commented!
-		//if(!_18cid.Is18CId()){
-		//	throw ;
-		//}
-		
-		for(i=1;i<=OPENGB_CID_18CID_ORDER_LENGTH;i++){
-			div_result = div(_18cid.m_cid.order,10);
-			sum+=div_result.rem*_mod11_2_w_list[i/(sizeof(_mod11_2_w_list)/sizeof(OPENGB_MOD11_2_W_LIST_TYPE))]%_OPENGB_MOD11_2_MOD_CONSTANT_NUMBER;
-			_18cid.m_cid.order=div_result.quot;
-		}
-		for(;i<=OPENGB_CID_18CID_ORDER_LENGTH+OPENGB_CID_18CID_BIRTHDAY_LENGTH;i++){
-			div_result = div(_18cid.m_cid.birthday,10);
-			sum+=div_result.rem*_mod11_2_w_list[i/(sizeof(_mod11_2_w_list)/sizeof(OPENGB_MOD11_2_W_LIST_TYPE))]%_OPENGB_MOD11_2_MOD_CONSTANT_NUMBER;
-			_18cid.m_cid.birthday=div_result.quot;
-		}
-		for(;i<=OPENGB_CID_18CID_ORDER_LENGTH+OPENGB_CID_18CID_BIRTHDAY_LENGTH+OPENGB_CID_18CID_AREA_LENGTH;i++){
-			div_result = div(_18cid.m_cid.area,10);
-			sum+=div_result.rem*_mod11_2_w_list[i/(sizeof(_mod11_2_w_list)/sizeof(OPENGB_MOD11_2_W_LIST_TYPE))]%_OPENGB_MOD11_2_MOD_CONSTANT_NUMBER;
-			_18cid.m_cid.area=div_result.quot;
-		}
-		
-		return _OPENGB_MOD11_2_MOD_CONSTANT_NUMBER-(sum-1)%_OPENGB_MOD11_2_MOD_CONSTANT_NUMBER == _OPENGB_MOD11_2_MOD_CONSTANT_NUMBER
-			? 0 : _OPENGB_MOD11_2_MOD_CONSTANT_NUMBER-(sum-1)%_OPENGB_MOD11_2_MOD_CONSTANT_NUMBER;
-	}
+	ctzidn::OPENGB_CID_CHECKSUM_TYPE _gb11643_1999_mod11_2_tt(OPENGB_MOD11_2_METHOD_ARG_TYPE _18cid);
 	#endif
 
 }

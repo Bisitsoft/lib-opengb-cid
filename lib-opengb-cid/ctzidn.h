@@ -1,11 +1,15 @@
 // Citizen Identification Number
 // GB 11643-1999
 
-#if !defined(__cizidn_h_)
-	#define __cizidn_h_
+#if !defined(__ctzidn_h_)
+	#define __ctzidn_h_
+	#include "opengb_cid_switches.h"
+	
+	#include "ctzidn_def.h"
 	
 	#include <cstdlib>
 	
+	#include "mod11_2.h"
 	#include "opengbex.h"
 
 /*
@@ -22,27 +26,22 @@
 		紧凑位表示法：行政区共34个，次级区编号最多有X（需统计）个，5+14=19位表示区号。 <- 不易维护与使用
 */
 
-	#define OPENGB_CID_18CID_LENGTH 18
-//	#define OPENGB_CID_18CID_LENGTH_1 17
-	#define OPENGB_CID_18CID_AREA_LENGTH 6
-	#define OPENGB_CID_18CID_BIRTHDAY_LENGTH 8
-	#define OPENGB_CID_18CID_ORDER_LENGTH 3
-	#define OPENGB_CID_18CID_CHECKSUM_LENGTH 1
-	
-	#define OPENGB_CID_15CID_LENGTH 15
-//	#define OPENGB_CID_15CID_LENGTH_1 14
-	#define OPENGB_CID_15CID_AREA_LENGTH 6
-	#define OPENGB_CID_15CID_BIRTHDAY_LENGTH 6
-	#define OPENGB_CID_15CID_ORDER_LENGTH 3
-	#define OPENGB_CID_15CID_CHECKSUM_LENGTH 0
-		
-typedef unsigned long int	OPENGB_CID_AREA_TYPE;
-typedef unsigned long int	OPENGB_CID_BIRTHDAY_TYPE;
-typedef unsigned short int	OPENGB_CID_ORDER_TYPE;
-typedef unsigned char		OPENGB_CID_CHECKSUM_TYPE;
-
 namespace opengb{
-	namespace cizidn{
+	namespace ctzidn{
+		namespace Sex{
+			enum Sex{
+				Male=1,
+				Female=2,
+			};
+		}
+		
+		namespace CIdType{
+			enum CIdType{
+				Unknown=0,
+				_15CId=1,
+				_18Cid=2
+			};
+		}
 		
 		typedef struct{
 			OPENGB_CID_AREA_TYPE area;
@@ -53,40 +52,65 @@ namespace opengb{
 		
 		class CitizenId{
 		private:
-		public:
-			S_CitizenId m_cid;
-			
-//#warning Commented!
-			//bool IsCId(){...; FindAreaCodeVerifyCId}
-			//ToCId(string)
-			//To18CId(string)
-			//To18CId(_id)
-			//cid_15to18(_15cid)
-			//cid_18to15(_18cid)
-			//bool VerifyCId(_18cid)
-			//Sex get_Sex()
-			
-			CitizenId(){memset(&m_cid,0,sizeof(S_CitizenId));}
-			CitizenId(
+			void Initialize(
 				OPENGB_CID_AREA_TYPE area,
 				OPENGB_CID_BIRTHDAY_TYPE birthday,
 				OPENGB_CID_ORDER_TYPE order,
 				OPENGB_CID_CHECKSUM_TYPE checksum,
 				bool check_cid = true
-			){
-				m_cid.area=area;
-				m_cid.birthday=birthday;
-				m_cid.order=order;
-				m_cid.checksum=checksum;
-				
+			);
+		protected:
+			S_CitizenId m_cid;
+			
+			int GetNumberLength(unsigned long int n);
+		public:
+			OPENGB_CID_AREA_TYPE get_Area();
+			OPENGB_CID_BIRTHDAY_TYPE get_Birthday();
+			OPENGB_CID_ORDER_TYPE get_Order();
+			OPENGB_CID_CHECKSUM_TYPE get_Checksum();
+			S_CitizenId get_Cid();
+			
+			Sex::Sex get_Sex();
+			
+			bool is_18Cid();
+			bool is_15Cid();
+			
+			//void To18CId(string)
+			//void To18CId(_id)
 //#warning Commented!
-				if(check_cid){
-					//if(!IsCid){
-					//	throw ;
-					//}
-				}
+			//bool IsCId(){...; FindAreaCodeVerifyCId}
+			//ToCId(string)
+			//To18CId(string)
+			//To18CId(_id)
+			//getAddress()//返回lib-opengb-acd中的AreaNode的链表
+			//cid_15to_18Cid(const CitizenId &_15cid)
+			//cid_18to15(_18cid)
+			
+			bool VerifyChecksum(){
+				return m_cid.checksum==_OPENGB_MOD11_2_METHOD(*this);
 			}
+			
+			
+			
+			CitizenId();
+			CitizenId(const S_CitizenId &cid);
+			CitizenId(
+				const OPENGB_CID_AREA_TYPE area,
+				const OPENGB_CID_BIRTHDAY_TYPE birthday,
+				const OPENGB_CID_ORDER_TYPE order,
+				const OPENGB_CID_CHECKSUM_TYPE checksum,
+				const bool check_cid = true
+			);
 		};
+		
+		
+		
+		//class CalculatedCitizenId: public CitizenId{
+		//	private:
+		//		bool _sex;
+		//		CIdType _cidType;
+		//	//各个属性都是提前计算好的CId类。
+		//};
 		
 	}
 }

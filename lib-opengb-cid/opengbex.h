@@ -2,6 +2,7 @@
 
 #if !defined(__opengbex_h_)
 	#define __opengbex_h_
+	#include "opengb_cid_switches.h"
 	
 	#include <exception>
 	#include <string>
@@ -12,7 +13,7 @@ namespace opengb{
 		OpenGBException(std::string message): exception(message.c_str()) {; }
 	};
 	
-	namespace cizidn{
+	namespace ctzidn{
 		class CitizenIdException:public OpenGBException{
 		public:
 			CitizenIdException(std::string message): OpenGBException(message) {; }
