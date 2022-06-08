@@ -48,13 +48,32 @@
 	#define OPENGB_CID_BIRTHDAY_TYPE	unsigned long int
 	#define OPENGB_CID_ORDER_TYPE		unsigned short int
 	#define OPENGB_CID_CHECKSUM_TYPE	unsigned char
+	
 
+	
+	#define OPENGB_MOD11_2_MOD_CONSTANT_NUMBER 11
+	
+	#if defined(OPENGB_CODE_PREFER_FAST)
+		#define OPENGB_MOD11_2_W_LIST_TYPE unsigned int
+	#elif defined(OPENGB_CODE_PREFER_TIGHT)
+		#define OPENGB_MOD11_2_W_LIST_TYPE unsigned char
+	#endif
+
+	
 	typedef struct{
 		OPENGB_CID_AREA_TYPE area;
 		OPENGB_CID_BIRTHDAY_TYPE birthday;
 		OPENGB_CID_ORDER_TYPE order;
 		OPENGB_CID_CHECKSUM_TYPE checksum;
 	}CitizenId;
+
+	#if defined(OPENGB_CODE_PREFER_FAST)
+		#define _OPENGB_MOD11_2_METHOD(_18cid) (_gb11643_1999_mod11_2_fst(_18cid))
+OPENGB_CID_CHECKSUM_TYPE _gb11643_1999_mod11_2_fst(const CitizenId *_18cid);
+	#elif defined(OPENGB_CODE_PREFER_TIGHT)
+		#define _OPENGB_MOD11_2_METHOD(_18cid) (_gb11643_1999_mod11_2_tt(_18cid))
+OPENGB_CID_CHECKSUM_TYPE _gb11643_1999_mod11_2_tt(const CitizenId *_18cid);
+	#endif
 
 	int GetSex(const CitizenId *cid);
 

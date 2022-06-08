@@ -39,7 +39,7 @@ int main(){
 		if(!read_cid_checksum(&checksum)) { clear_stdin(); continue; }
 		cid.checksum = checksum;
 		
-		checksum = _OPENGB_MOD11_2_METHOD(cid);
+		checksum = _OPENGB_MOD11_2_METHOD(&cid);
 		
 		printf(
 			"输入的身份证号是：%06d%08d%03d%c\n",
