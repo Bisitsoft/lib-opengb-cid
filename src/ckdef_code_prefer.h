@@ -2,7 +2,7 @@
 //#if !defined(__ckdef_code_prefer_h_)
 //	#define __ckdef_code_prefer_h_
 	
-	//јмІйєк¶ЁТе
+	//жЈЂжџҐе®Џе®љд№‰
 	#if !defined(OPENGB_CODE_PREFER_FAST)
 		#if !defined(OPENGB_CODE_PREFER_TIGHT)
 			#error Please define OPENGB_CODE_PREFER_FAST or OPENGB_CODE_PREFER_TIGHT for continuing compilation.
