@@ -1,7 +1,5 @@
 #include <stdio.h>
 
-//#define OPENGB_CODE_PREFER_FAST
-#define OPENGB_CODE_PREFER_TIGHT
 #include "ctzidn.h"
 #include "opengbex.h"
 
@@ -21,6 +19,11 @@ int main(){
 	OPENGB_CID_CHECKSUM_TYPE checksum;
 	
 	CitizenId cid;
+
+	OPENGB_ERROR_CODE_TYPE ec=OPENGB_CID_EC_NOT_18CID;
+	char buffer[200];
+	opengb_ErrorCodeToString(ec, buffer, sizeof(buffer));
+	printf("Test openex.h: %d: \"%s\"\n",ec,buffer);
 	
 	while(true){
 		printf("请输入一个18位身份证号码: ");
@@ -46,6 +49,11 @@ int main(){
 			cid.birthday,
 			cid.order,
 			cid_checksum_to_char(cid.checksum)
+		);
+		printf(
+			"输入的身份证号中的顺序码是%d，性别是:%s。\n",
+			cid.order,
+			GetSex(&cid) ? "男" : "女"
 		);
 		printf(
 			"输入的身份证号中的校验码（末尾数字）是%c，校验码是%c，校验算法结果：%s\n",

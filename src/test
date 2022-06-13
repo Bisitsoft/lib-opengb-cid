@@ -6,6 +6,7 @@
 	//#define _OPENGB_CID_SWITCHES_FIRST_EDIT
 	
 // :==  Editable Zone 1/2 End  ===
+
 	#if defined(_OPENGB_CID_SWITCHES_FIRST_EDIT)
 		#error When you first use this library, you will see this error message. \
 It is telling you here is header file with many macros of switch compilation. \

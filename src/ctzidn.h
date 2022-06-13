@@ -6,7 +6,6 @@
 	#include "opengb_cid_switches.h"
 
 	#include <stdbool.h>
-	#include <stdlib.h>
 	
 	#include "opengbex.h"
 
@@ -59,40 +58,46 @@
 	#endif
 
 	
-	typedef struct{
-		OPENGB_CID_AREA_TYPE area;
-		OPENGB_CID_BIRTHDAY_TYPE birthday;
-		OPENGB_CID_ORDER_TYPE order;
-		OPENGB_CID_CHECKSUM_TYPE checksum;
-	}CitizenId;
+typedef struct{
+	OPENGB_CID_AREA_TYPE area;
+	OPENGB_CID_BIRTHDAY_TYPE birthday;
+	OPENGB_CID_ORDER_TYPE order;
+	OPENGB_CID_CHECKSUM_TYPE checksum;
+}CitizenId;
+#define OPENGB_CID_NULL {0,0,0,0}
+
+	#define _OPENGB_MOD11_2_METHOD_BAD_RETURN 0xFF
 
 	#if defined(OPENGB_CODE_PREFER_FAST)
 		#define _OPENGB_MOD11_2_METHOD(_18cid) (_gb11643_1999_mod11_2_fst(_18cid))
-OPENGB_CID_CHECKSUM_TYPE _gb11643_1999_mod11_2_fst(const CitizenId *_18cid);
+OPENGB_CID_CHECKSUM_TYPE _gb11643_1999_mod11_2_fst(const CitizenId * const _18cid);
 	#elif defined(OPENGB_CODE_PREFER_TIGHT)
 		#define _OPENGB_MOD11_2_METHOD(_18cid) (_gb11643_1999_mod11_2_tt(_18cid))
-OPENGB_CID_CHECKSUM_TYPE _gb11643_1999_mod11_2_tt(const CitizenId *_18cid);
+OPENGB_CID_CHECKSUM_TYPE _gb11643_1999_mod11_2_tt(const CitizenId * const _18cid);
 	#endif
 
-	int GetSex(const CitizenId *cid);
+int GetSex(const CitizenId * const cid);
 
-	bool Is18CId(const CitizenId *cid);
-	bool Is15CId(const CitizenId *cid);
+bool Is18CId(const CitizenId * const cid);
+bool Is15CId(const CitizenId * const cid);
+bool IsNullCId(const CitizenId * const cid);
 
-			
+CitizenId CloneCId(const CitizenId * const cid);
+//CitizenId To18CId(string);
+CitizenId To18CId(const CitizenId * const cid);
+CitizenId To15CId(const CitizenId * const cid);
 			
 //#warning Commented!
-//void To18CId(string)
-//void To18CId(_id)
+
 //bool IsCId(){...; FindAreaCodeVerifyCId}
 //ToCId(string)
-//To18CId(string)
-//To18CId(_id)
 //getAddress()//返回lib-opengb-acd中的AreaNode的链表
-//cid_15to_18Cid(const CitizenId &_15cid)
-//cid_18to15(_18cid)
-			
-bool VerifyCIdChecksum(const CitizenId *_18cid);
+
+bool VerifyCId(const CitizenId * const cid);
+//bool VerifyCIdArea(const CitizenId * const cid);
+bool VerifyCIdBirthday(const CitizenId * const cid);
+bool VerifyCIdOrder(const CitizenId * const cid);
+bool VerifyCIdChecksum(const CitizenId * const _18cid);
 
 
 
