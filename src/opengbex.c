@@ -3,8 +3,6 @@
 #include "opengbex.h"
 
 #include <stdlib.h>
-#include <string.h>
-//#include <stdarg.h>
 #include <ctype.h>
 
 #include "moretype.h"
@@ -12,43 +10,55 @@
 
 // `size_t` is unnecessary here (`i` in each function), `int` is appropriate and enough.
 
-int lastErrorCode = OPENGB_NO_ERROR;
+OPENGB_ERROR_CODE_TYPE _lastErrorCode = OPENGB_NO_ERROR;
+#if defined(OPENGB_EX_ENABLE_EXTEND_VALUES)
+OpenGBEXExtendValues *_lastExtendValues=NULL;
+#endif
 
-int num_length(int num);
-
-int opengb_GetLastOpenGBErrorCode() {
-    return lastErrorCode;
+OPENGB_ERROR_CODE_TYPE opengb_GetLastOpenGBErrorCode() {
+    return _lastErrorCode;
 }
 
-void opengb_SetLastOpenGBErrorCode(int errorCode) {
-	//opengb_CleanLastOpenGBErrorCode();
-    lastErrorCode = errorCode;
+void opengb_SetLastOpenGBError(OPENGB_ERROR_CODE_TYPE errorCode){
+	opengb_SetLastOpenGBError(errorCode, NULL);
+}
+void opengb_SetLastOpenGBError(OPENGB_ERROR_CODE_TYPE errorCode, OpenGBEXExtendValues* extendValues) {
+    _lastErrorCode = errorCode;
+#if defined(OPENGB_EX_ENABLE_EXTEND_VALUES)
+	_lastExtendValues = extendValues;
+#endif
 }
 
-void opengb_CleanLastOpenGBErrorCode(){
-	lastErrorCode=OPENGB_BASE_EC_NO_ERROR;
-//#if defined(OPENGB_EX_ENABLE_EXTEND_VALUES)
-//	opengb_CleanLastOpenGBErrorExtendValues(); //<delete>Duplicate (`opengb_SetLastOpenGBErrorExtendValues` will call it, too) but necessary?</delete>Has been removed.
-//#endif
+void opengb_CleanLastOpenGBError(){
+#if defined(OPENGB_EX_ENABLE_EXTEND_VALUES)
+	int i;
+#endif
+	_lastErrorCode=OPENGB_BASE_EC_NO_ERROR;
+#if defined(OPENGB_EX_ENABLE_EXTEND_VALUES)
+	if(_lastExtendValues!=NULL){
+		for(i=0;i<_lastExtendValues->count;++i){
+			free(_lastExtendValues->values[i]);
+		}
+		free(_lastExtendValues->values);
+		free(_lastExtendValues);
+		_lastExtendValues=NULL;
+	}
+#endif
 }
 
 #if defined(OPENGB_EX_ENABLE_EXTEND_VALUES)
+int _NumLength(int num){
+	int r=1;
+	while(num>9){
+		num/=10;
+		++r;
+	}
+	return r;
+}
+
 OpenGBEXExtendValues *lastExtendValues=NULL;
 
 const OpenGBEXExtendValues* opengb_GetLastOpenGBErrorExtendValues() { return lastExtendValues; }
-
-void opengb_CleanLastOpenGBErrorExtendValues(){
-	int i;
-
-	if(lastExtendValues!=NULL){
-		for(i=0;i<lastExtendValues->count;++i){
-			free(lastExtendValues->values[i]);
-		}
-		free(lastExtendValues->values);
-		free(lastExtendValues);
-		lastExtendValues=NULL;
-	}
-}
 
 const char* _opengb_MakeString(const char** _str){
 	char *r = (char*)malloc(sizeof(char)*(strlen(_str)+1));
@@ -74,7 +84,6 @@ void opengb_SetLastOpenGBErrorExtendValues(const OpenGBEXExtendValues* extendVal
 	lastExtendValues = extendValues;
 }
 
-	//右边这段代码干嘛的？ //#define OPENGB_BASE_EC_PROCESS_MSG(msg)	opengb_EXProcessMessageWithExtendValues(msg)
 void opengb_EXProcessMessageWithExtendValues(const char* msg, const char* _out_msg, const int maxSize, const OpenGBEXExtendValues const* ev){
 	int i, j, temp_idx, len = strlen(msg), arg_n;
 	int *arg_pos=NULL;
@@ -110,20 +119,13 @@ void opengb_EXProcessMessageWithExtendValues(const char* msg, const char* _out_m
 
 	
 }
-int num_length(int num){
-	int r=1;
-	while(num>9){
-		num/=10;
-		++r;
-	}
-	return r;
-}
 #else
 void opengb_SetLastOpenGBErrorExtendValues(OpenGBEXExtendValues extendValues) { ; }
 #endif
 
 #if defined(OPENGB_EX_ENABLE_ECTOSTR)
 	#include <string.h>
+	//#include <stdarg.h>
 
 //#warning Need a dictionary for large set of error messages instead switch-cases!
 

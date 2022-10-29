@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
+    <Authors>Orange233</Authors>
+    <Company>Bisitsoft</Company>
+    <Copyright>Copyright (c) Bisitsoft 2022</Copyright>
+    <PackageReleaseNotes>Our official website: https://www.ourorangenet.com .</PackageReleaseNotes>
+    <FileVersion>1.0.0</FileVersion>
+    <AssemblyVersion>1.0.0</AssemblyVersion>
+  </PropertyGroup>
+
+</Project>

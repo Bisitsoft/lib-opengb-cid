@@ -13,12 +13,13 @@
 ### 编译测试程序
 
 请在仓库根目录下执行：
+`Linux`，
 ```
 cd src
 make clean
 make
 ```
-或者
+`Windows`，
 ```
 cd src
 mingw32-make clean
@@ -47,12 +48,13 @@ mingw32-make
 ### Compile Test Program
 
 Please execute following commands in repository root directory:
+`Linux`,
 ```
 cd src
 make clean
 make
 ```
-or
+`Windows`,
 ```
 cd src
 mingw32-make clean

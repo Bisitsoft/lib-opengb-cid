@@ -6,7 +6,7 @@
 
 
 
-	#define OPENGB_ERROR_CODE_TYPE unsigned int
+typedef unsigned int OPENGB_ERROR_CODE_TYPE
 	// Use `label`(type) as high bits (mask=0xF000) and `ec`(error code) as low bits (mask=0x0FFF) to make a complete error code.
 	#define OPENGB_EC_MAKE(label, ec) ((label)|(ec))
 	#define OPENGB_NO_ERROR 0UL //No error.
@@ -18,7 +18,6 @@
 	#endif
 
 	// Each error code has its description(_MSG).
-
 	// !!!For saving memory, should use a constant string array to instead macro string. //<-----WIP!!!
 
 // === OpenGB Base Error Code Begin ==:
@@ -63,9 +62,11 @@
 
 
 
-int opengb_GetLastOpenGBErrorCode(); //Get last error code.
-//void opengb_SetLastOpenGBErrorCode(OPENGB_ERROR_CODE_TYPE errorCode);  //Get last error code.
-//void opengb_CleanLastOpenGBErrorCode();  //Clean last error code (and extend values). It will not clear extend values.
+void opengb_SetLastOpenGBError(OPENGB_ERROR_CODE_TYPE errorCode); //Set last error without extendValues.
+// Set last error with extendValues.
+// If you didn't defined `OPENGB_EX_ENABLE_EXTEND_VALUES`, `extendValues` will be drop
+void opengb_SetLastOpenGBError(OPENGB_ERROR_CODE_TYPE errorCode, OpenGBEXExtendValues* extendValues);
+OPENGB_ERROR_CODE_TYPE opengb_GetLastOpenGBErrorCode(); //Get last error code.
 
 	#if defined(OPENGB_EX_ENABLE_EXTEND_VALUES)
 typedef struct{
@@ -73,11 +74,11 @@ typedef struct{
 	char** values;
 }OpenGBEXExtendValues;
 const OpenGBEXExtendValues* opengb_GetLastOpenGBErrorExtendValues(); //Get parameters of last error message.
-//void opengb_SetLastOpenGBErrorExtendValues(const OpenGBEXExtendValues* extendValues); //Set parameters of last error message. It will call `opengb_CleanLastOpenGBErrorCode` before set value.
-//void opengb_CleanLastOpenGBErrorCode(); //Clean parameters of last error message. It will use `free` function to release all the parameters.
 void opengb_EXProcessMessageWithExtendValues(const char* msg, const char* _out_msg, const int maxSize, const OpenGBEXExtendValues const* ev); //Process error message with ectend values.
 const char* _opengb_MakeString(const char** _str); //Return a `_str` copy contained by a new dynamic array.
 OpenGBEXExtendValues* opengb_MakeOpenGBErrorExtendValues(const char** args, const int argc); //Box `args` into a new `OpenGBEXExtendValues`.
+	#elif
+typedef (unsigned char) OpenGBEXExtendValues;
 	#endif
 
 	// Throw error code. In fact, it just set last error code.

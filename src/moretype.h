@@ -1,6 +1,9 @@
-#if !defined(__moretype_h_)
+// More Type
+
+#ifndef __moretype_h_
 	#define __moretype_h_
 
+	// Define NULL
 	#ifndef NULL
 		#ifdef __cplusplus
 			#define NULL 0
@@ -9,6 +12,7 @@
 		#endif
 	#endif
 
+	// Nullable Boolean
 	#define NULLABLE_BOOL_TYPE char
 	#define NULLABLE_BOOL_TURE 1
 	#define NULLABLE_BOOL_FALSE 0

@@ -1,6 +1,9 @@
 {
     "files.associations": {
 		"stdbool.h": "c",
-		"opengbex.h": "c"
+		"opengbex.h": "c",
+		"iosfwd": "cpp",
+		"ckdef_code_prefer.h": "c",
+		"moretype.h": "c"
 	}
 }

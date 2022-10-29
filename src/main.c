@@ -8,11 +8,9 @@ bool read_cid_checksum(OPENGB_CID_CHECKSUM_TYPE *_out_result);
 char cid_checksum_to_char(OPENGB_CID_CHECKSUM_TYPE checksum);
 void clear_stdin();
 
-/*
-GB11643-1999文档的附录B中给出的身份证号例子：
-11010519491231002X
-440524188001010014
-*/
+// GB11643-1999文档的附录B中给出的身份证号例子：
+//   11010519491231002X
+//   440524188001010014 // 1880，你没看错
 
 int main(){
 	unsigned long long _out;
@@ -71,7 +69,7 @@ bool read_cid_number(const int length, unsigned long long *_out_result){
 	char temp;
 	
 	*_out_result=0;
-	for(i=0;i<length;i++){
+	for(i=0;i<length;++i){
 		*_out_result*=10; //进位
 		
 		temp=getchar();
