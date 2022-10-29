@@ -28,7 +28,6 @@ Have fun! :)
 	#define OPENGB_CODE_PREFER_TIGHT // Make code save memories, but running slowly. It is mutually exclusive with OPENGB_CODE_PREFER_FAST.
 
 	#define OPENGB_EX_ENABLE_ECTOSTR // Enable error code converte to string functions.
-	#define OPENGB_EX_ENABLE_EXTEND_VALUES // Enable extend error values functions.
 	
 // :==  Editable Zone 2/2 End  ===
 
