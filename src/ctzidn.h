@@ -87,7 +87,8 @@ OPENGB_CID_CHECKSUM_TYPE _gb11643_1999_mod11_2_fst(const CitizenId * const _18ci
 OPENGB_CID_CHECKSUM_TYPE _gb11643_1999_mod11_2_tt(const CitizenId * const _18cid);
 	#endif
 
-//getAddress() //返回lib-opengb-acd中的AreaNode的链表 //<-----WIP!!!
+#warning Return `AreaNode` node list in WIP `lib-opengb-acd`
+//getAddress()
 int GetSex(const CitizenId * const cid);
 
 bool Is18CId(const CitizenId * const cid);
@@ -105,10 +106,10 @@ bool VerifyCIdBirthday(const CitizenId * const cid);
 bool VerifyCIdOrder(const CitizenId * const cid);
 bool VerifyCIdChecksum(const CitizenId * const _18cid);
 
-bool ToCId(const char const * text, const int text_Length, CitizenId * const _out);
-bool ToString(const CitizenId * const cid, char* const _out, const int out_buffer_size); //_out应当至少有19或16字节。//return -1 for failure, >0 for success and length.
+bool ToCId(const char const * text, const int text_Length, CitizenId* const _out);
+bool ToString(const CitizenId* const cid, char* const _out, const int out_buffer_size); //_out应当至少有19或16字节。//return -1 for failure, >0 for success and length.
 
-CitizenIdZip1 Zip1(const CitizenId * const cid);
+CitizenIdZip1 Zip1(const CitizenId* const cid);
 #define _UNZIP1_CID_AREA(cid) ((cid >> 44) & 0xFFFFF)
 #define _UNZIP1_CID_BIRTHDAY(cid) ((cid >> 14) & 0x3FFFFFFF)
 #define _UNZIP1_CID_ORDER(cid) ((cid >> 4) & 0x3FF)

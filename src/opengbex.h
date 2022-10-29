@@ -6,7 +6,7 @@
 
 
 
-typedef unsigned int OPENGB_ERROR_CODE_TYPE
+typedef unsigned int OPENGB_ERROR_CODE_TYPE;
 	// Use `label`(type) as high bits (mask=0xF000) and `ec`(error code) as low bits (mask=0x0FFF) to make a complete error code.
 	#define OPENGB_EC_MAKE(label, ec) ((label)|(ec))
 	#define OPENGB_NO_ERROR 0UL //No error.
@@ -69,7 +69,7 @@ void opengb_CleanLastOpenGBErroCoder();
 // `_out_msg`: A buffer for saving message.
 // `maxSize`: The maxinum size of `_out_msg` (strlen(_out_msg)+1).
 // Return -1 means failure. Return any val >0 means success and the value is the length of `_out_msg`.
-int opengb_ErrorCodeToString(const OPENGB_ERROR_CODE_TYPE error_code, const char* _out_msg, const int maxSize);
+int opengb_ErrorCodeToString(const OPENGB_ERROR_CODE_TYPE error_code, char* _out_msg, const int maxSize);
 	#endif
 
 #endif

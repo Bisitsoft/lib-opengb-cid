@@ -27,7 +27,7 @@ void opengb_CleanLastOpenGBErroCoder(){
 #if defined(OPENGB_EX_ENABLE_ECTOSTR)
 	#include <string.h>
 
-int opengb_ErrorCodeToString(const OPENGB_ERROR_CODE_TYPE error_code, const char* _out_msg, const int maxSize){
+int opengb_ErrorCodeToString(const OPENGB_ERROR_CODE_TYPE error_code, char* _out_msg, const int maxSize){
 	int msgLen;
 	char *msg = NULL;
 
