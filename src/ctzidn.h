@@ -52,6 +52,7 @@
 	#define OPENGB_CID_BIRTHDAY_TYPE	unsigned long int
 	#define OPENGB_CID_ORDER_TYPE		unsigned short int
 	#define OPENGB_CID_CHECKSUM_TYPE	unsigned char
+	//#define OPENGB_CID_UNIVERSAL_TYPE	unsigned long int
 	
 
 	
@@ -87,33 +88,55 @@ OPENGB_CID_CHECKSUM_TYPE _gb11643_1999_mod11_2_fst(const CitizenId * const _18ci
 OPENGB_CID_CHECKSUM_TYPE _gb11643_1999_mod11_2_tt(const CitizenId * const _18cid);
 	#endif
 
-#warning Return `AreaNode` node list in WIP `lib-opengb-acd`
-//getAddress()
-int GetSex(const CitizenId * const cid);
+//!WIP:	Return `AreaNode` node list in WIP `lib-opengb-acd`.
+//AreaNode* GetAddress(const CitizenId* const cid);
+// Return `OPENGB_CID_SEX_MALE` or `OPENGB_CID_SEX_FEMALE`.
+int GetSex(const CitizenId* const cid);
 
-bool Is18CId(const CitizenId * const cid);
-bool Is15CId(const CitizenId * const cid);
-bool IsNullCId(const CitizenId * const cid);
+// Accroding to cid.birth word's number of digit, detected whether `cid` has 18 digits.
+bool Is18CId(const CitizenId* const cid);
+// Accroding to cid.birth word's number of digit, detected whether `cid` has 15 digits.
+bool Is15CId(const CitizenId* const cid);
+bool IsNullCId(const CitizenId* const cid);
+bool IsNullCId(const CitizenIdZip1 cid);
 
-CitizenId CloneCId(const CitizenId * const cid); // Copy data in `CitizenId` by `memcpy` method.
-CitizenId To18CId(const CitizenId * const cid); 
-CitizenId To15CId(const CitizenId * const cid);
+// Copy data in `CitizenId` by `memcpy` method.
+CitizenId CloneCId(const CitizenId* cid);
+// If `cid` is 18-digit CId, it will return a `cid`'s copy.
+CitizenId To18CId(const CitizenId* cid); 
+// If `cid` is 15-digit CId, it will return a `cid`'s copy.
+CitizenId To15CId(const CitizenId* cid);
 
-//bool IsCId(){...; FindAreaCodeVerifyCId}
-bool VerifyCId(const CitizenId * const cid);
-//bool VerifyCIdArea(const CitizenId * const cid);
-bool VerifyCIdBirthday(const CitizenId * const cid);
-bool VerifyCIdOrder(const CitizenId * const cid);
-bool VerifyCIdChecksum(const CitizenId * const _18cid);
+
+// Verify is Cid good.
+bool VerifyCId(const CitizenId* const cid);
+inline bool _VerifyCIdArea(const CitizenId* const cid){
+//!WIP:	Use `lib-opengb-acd` to verify whether the area code is existed. \
+		Attention: Don't forget area code could be delete and change. So it will just return a warning, not error.
+	return 0<=cid->area&&cid->area<=999999;
+}
+inline bool _VerifyCIdBirthday(const CitizenId* const cid){
+	return _OPENGB_IS_8N(cid->birthday) || _OPENGB_IS_6N(cid->birthday);
+}
+inline bool _VerifyCIdOrder(const CitizenId* const cid){
+	return 0<=cid->order&&cid->order<=999;
+}
+inline bool _VerifyCIdChecksum(const CitizenId* const _18cid){
+	return _18cid->checksum==_OPENGB_MOD11_2_METHOD(_18cid);
+}
 
 bool ToCId(const char const * text, const int text_Length, CitizenId* const _out);
-bool ToString(const CitizenId* const cid, char* const _out, const int out_buffer_size); //_out应当至少有19或16字节。//return -1 for failure, >0 for success and length.
+// Generate the error message corresponding to the error code.
+// `_out`: A buffer for saving message. Its size should have at least 16 or 19 bytes.
+// `maxSize`: The maxinum size of `_out_msg` (strlen(_out_msg)+1).
+// Return -1 means failure. Return any val >0 means success and the value is the length of `_out`.
+int ToString(const CitizenId* const cid, char* const _out, const int out_buffer_size);
 
 CitizenIdZip1 Zip1(const CitizenId* const cid);
-#define _UNZIP1_CID_AREA(cid) ((cid >> 44) & 0xFFFFF)
-#define _UNZIP1_CID_BIRTHDAY(cid) ((cid >> 14) & 0x3FFFFFFF)
-#define _UNZIP1_CID_ORDER(cid) ((cid >> 4) & 0x3FF)
-#define _UNZIP1_CID_CHECKSUM(cid) (cid & 0xF)
+#define _UNZIP1_CID_AREA(cid) (((cid) >> 44) & 0xFFFFF)
+#define _UNZIP1_CID_BIRTHDAY(cid) (((cid) >> 14) & 0x3FFFFFFF)
+#define _UNZIP1_CID_ORDER(cid) (((cid) >> 4) & 0x3FF)
+#define _UNZIP1_CID_CHECKSUM(cid) ((cid) & 0xF)
 CitizenId Unzip1(const CitizenIdZip1 cid);
 
 

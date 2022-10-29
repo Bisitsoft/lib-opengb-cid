@@ -1,14 +1,12 @@
-[中文](#致预备贡献者) | [English](#To-Pre-contributors)
+[中文](#致贡献者) | [English](#To-contributors)
 
 ---
 
-# 致预备贡献者
+# 致贡献者
 
 ## 一些名称
 
 * `CId`、`CizIdN`：全称“Citizen Identification Number”，身份证号。
-
-* `EV`：全称“Extend Values”，扩展值。
 
 ## 一些命名规则（建议）
 
@@ -72,13 +70,11 @@
 
 ---
 
-# To Pre-contributors
+# To Contributors
 
 ## Some Names
 
 * `CId`, `CizIdN`: Full name is "Citizen Identification Number".
-
-* `EV`: Full name is "Extend Values".
 
 ## Some Name Rules (Suggestions)
 
@@ -138,4 +134,4 @@ Thanks for erveryone's participation! `:>`
 
 *P.S.: Although I am the only one in this project, the word "we" is used here in order not to change it in the future.*
 
-<p align="right">- OurOpenSource Group</p>
+<p align="right">OurOpenSource Project Group</p>

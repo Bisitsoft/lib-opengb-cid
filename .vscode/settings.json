@@ -4,6 +4,8 @@
 		"opengbex.h": "c",
 		"iosfwd": "cpp",
 		"ckdef_code_prefer.h": "c",
-		"moretype.h": "c"
+		"moretype.h": "c",
+		"stdlib.h": "c",
+		"string.h": "c"
 	}
 }

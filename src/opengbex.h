@@ -12,7 +12,7 @@ typedef unsigned int OPENGB_ERROR_CODE_TYPE;
 	#define OPENGB_NO_ERROR 0UL //No error.
 
 // Each error code has its description(_MSG).
-#warning !!!For saving memory, should use a constant string array to instead macro string.
+//!WIP:	!!!For saving memory, should use a constant string array to instead macro string.
 
 	#define OPENGB_EC_MSG_MAX_SIZE 109 //The longest message size. Includes terminal '\0'.
 
@@ -65,6 +65,7 @@ void opengb_CleanLastOpenGBErroCoder();
 	#define _OPENGB_CATCH_CLOSE }
 
 	#if defined(OPENGB_EX_ENABLE_ECTOSTR)
+		#define _OPENGB_ECTOSTR_BAD_RETURN -1
 // Generate the error message corresponding to the error code.
 // `_out_msg`: A buffer for saving message.
 // `maxSize`: The maxinum size of `_out_msg` (strlen(_out_msg)+1).

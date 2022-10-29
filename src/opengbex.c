@@ -32,7 +32,7 @@ int opengb_ErrorCodeToString(const OPENGB_ERROR_CODE_TYPE error_code, char* _out
 	char *msg = NULL;
 
 	#define _OPENGB_SET_MSG(x) case x: msg = x##_MSG; break; //x must be a macro word name.
-	#warning Need a dictionary (search by dichotomy) for large set of error messages instead switch-cases!
+	//!WIP:	Need a dictionary (search by dichotomy) for large set of error messages instead switch-cases!
 	switch (error_code){
 		_OPENGB_SET_MSG(OPENGB_BASE_EC_NO_ERROR)
 
@@ -55,9 +55,9 @@ int opengb_ErrorCodeToString(const OPENGB_ERROR_CODE_TYPE error_code, char* _out
 	if(msgLen>=maxSize){
 		// In order to protect error code, we shouldn't use opengbex in itself.
 		// But user may have saved error code before calling this function.
-		// So we can use OpenGB exception. here
+		// So we can use OpenGB exception here.
 		_OPENGB_THROW(OPENGB_BASE_EC_BUFFER_NOT_ENOUGH);
-		return -1;
+		return _OPENGB_ECTOSTR_BAD_RETURN;
 	}else{
 		strcpy(_out_msg, msg);
 		return msgLen;

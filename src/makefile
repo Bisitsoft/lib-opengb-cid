@@ -28,8 +28,8 @@ flags=\
 all-target=$(test-target) #$(static-target) $(shared-target)
 all-obj=$(test-obj) #$(static-obj) $(shared-obj)
 
-test-target=main.exe
-test-obj=main.o $(lib-obj)
+test-target=test.exe
+test-obj=test_main.o $(lib-obj)
 
 #tatic-target=lib-opengb-cid.a
 #static-obj=$(lib-obj)
@@ -54,9 +54,9 @@ test-program: $(test-target)
 
 # >>> Dependencies >>>
 #   Test Program:
-main.exe: $(test-obj)
+test.exe: $(test-obj)
 	$(CC) $(flags) -o $@ $^
-main.o: main.c
+test_main.o: test_main.c
 	$(CC) $(flags) -c $< -o $@
 
 #   Libraries Targets:
