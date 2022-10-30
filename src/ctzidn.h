@@ -95,7 +95,7 @@ bool Is18CId(const CitizenId* const cid);
 // Accroding to cid.birth word's number of digit, detected whether `cid` has 15 digits.
 bool Is15CId(const CitizenId* const cid);
 bool IsNullCId(const CitizenId* const cid);
-bool IsNullCId(const CitizenIdZip1 cid);
+bool IsNullCIdZip1(const CitizenIdZip1 cid);
 
 // Copy data in `CitizenId` by `memcpy` method.
 CitizenId CloneCId(const CitizenId* cid);

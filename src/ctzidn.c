@@ -28,7 +28,7 @@ bool Is15CId(const CitizenId* const cid){
 bool IsNullCId(const CitizenId* const cid){
 	return cid->area==0&&cid->birthday==0&&cid->order==0&&cid->checksum==0;
 }
-bool IsNullCId(const CitizenIdZip1 cid){
+bool IsNullCIdZip1(const CitizenIdZip1 cid){
 	return cid==OPENGB_CID_ZIP1_NULL;
 }
 //!WIP: GetCIdType(). Return `OPENGB_CID_TYPE_*`.
@@ -72,18 +72,17 @@ CitizenId To15CId(const CitizenId* cid){
 
 
 bool VerifyCId(const CitizenId* const cid){
-	if(Is15CId(cid)){
-		if(cid->checksum!=0) return false;
-	}else if(Is18CId(cid)){
-		if(!VerifyCIdOrder(cid)) return false;
-	}else{
-		return false;
-	}
-
 	if(!_VerifyCIdArea(cid)) return false;
 	if(!_VerifyCIdBirthday(cid)) return false;
 	if(!_VerifyCIdOrder(cid)) return false;
-	if(!_VerifyCIdChecksum(cid)) return false;
+	
+	if(Is15CId(cid)){
+		if(cid->checksum!=0) return false;
+	}else if(Is18CId(cid)){
+		if(!_VerifyCIdChecksum(cid)) return false;
+	}else{
+		return false;
+	}
 
 	return true;
 }
@@ -151,22 +150,10 @@ CitizenId Unzip1(const CitizenIdZip1 cid){
 const OPENGB_MOD11_2_W_LIST_TYPE _mod11_2_w_list[OPENGB_CID_18CID_LENGTH] = {2,4,8,5,10,9,7,3,6,1,2};
 const OPENGB_CID_CHECKSUM_TYPE _mod11_2_trs_list[OPENGB_MOD11_2_MOD_CONSTANT_NUMBER]={1,0,10,9,8,7,6,5,4,3,2}; //transform list
 
+void _gb11643_1999_mod11_2_sub(unsigned char* sum, int value, const OPENGB_MOD11_2_W_LIST_TYPE* w_begin);
+
 const OPENGB_MOD11_2_W_LIST_TYPE* const _mod11_2_w_list_1=_mod11_2_w_list+1;
 const OPENGB_MOD11_2_W_LIST_TYPE* const _mod11_2_w_list_3=_mod11_2_w_list+3;
-
-// Because `div` use `int` as parameter, we use `int` as type of `value`.
-inline void _gb11643_1999_mod11_2_sub(unsigned char* sum, int value, const OPENGB_MOD11_2_W_LIST_TYPE* w_begin){
-	div_t div_result;
-
-	while(value>9){
-		div_result = div(value,10);
-		(*sum)+=div_result.rem*_mod11_2_w_list[*(w_begin++)];
-		value=div_result.quot;
-	}
-	if(value!=0){
-		(*sum)+=value*_mod11_2_w_list[*w_begin];
-	}
-}
 
 OPENGB_CID_CHECKSUM_TYPE _gb11643_1999_mod11_2(const CitizenId* const _18cid){
 	unsigned char sum=0;
@@ -186,4 +173,18 @@ OPENGB_CID_CHECKSUM_TYPE _gb11643_1999_mod11_2(const CitizenId* const _18cid){
 	//r=OPENGB_MOD11_2_MOD_CONSTANT_NUMBER-(sum-1)%OPENGB_MOD11_2_MOD_CONSTANT_NUMBER;
 	r=_mod11_2_trs_list[sum%OPENGB_MOD11_2_MOD_CONSTANT_NUMBER];
 	return r==OPENGB_MOD11_2_MOD_CONSTANT_NUMBER?0:r;
+}
+
+// Because `div` use `int` as parameter, we use `int` as type of `value`.
+void _gb11643_1999_mod11_2_sub(unsigned char* sum, int value, const OPENGB_MOD11_2_W_LIST_TYPE* w_begin){
+	div_t div_result;
+
+	while(value>9){
+		div_result = div(value,10);
+		(*sum)+=div_result.rem*_mod11_2_w_list[*(w_begin++)];
+		value=div_result.quot;
+	}
+	if(value!=0){
+		(*sum)+=value*_mod11_2_w_list[*w_begin];
+	}
 }

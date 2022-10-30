@@ -60,7 +60,7 @@ typedef unsigned int OPENGB_ERROR_CODE_TYPE;
 
 OPENGB_ERROR_CODE_TYPE opengb_GetLastOpenGBErrorCode();
 void opengb_SetLastOpenGBErrorCode(OPENGB_ERROR_CODE_TYPE errorCode);
-void opengb_CleanLastOpenGBErroCode();
+void opengb_CleanLastOpenGBErrorCode();
 
 	// Throw error code. In fact, it just set last error code.
 	#define _OPENGB_THROW(errorCode) opengb_CleanLastOpenGBErrorCode();

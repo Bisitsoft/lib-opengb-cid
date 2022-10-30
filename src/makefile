@@ -7,6 +7,7 @@ CC=gcc
 #   C Compiler Flags:
 flags=\
 	-finput-charset=UTF-8\
+	-std=c17\
 #	-v\
 #	-Wfatal-errors \
 #	-Wextra \

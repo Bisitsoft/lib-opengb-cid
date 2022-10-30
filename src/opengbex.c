@@ -6,7 +6,6 @@
 #include <ctype.h>
 
 #include "moretype.h"
-#include "utility.h"
 
 // `size_t` is unnecessary here (`i` in each function), `int` is appropriate and enough.
 
@@ -20,7 +19,7 @@ void opengb_SetLastOpenGBErrorCode(OPENGB_ERROR_CODE_TYPE errorCode){
 	_lastErrorCode = errorCode;
 }
 
-void opengb_CleanLastOpenGBErroCode(){
+void opengb_CleanLastOpenGBErrorCode(){
 	_lastErrorCode=OPENGB_BASE_EC_NO_ERROR;
 }
 
