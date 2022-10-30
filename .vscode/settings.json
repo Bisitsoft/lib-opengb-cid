@@ -6,6 +6,8 @@
 		"ckdef_code_prefer.h": "c",
 		"moretype.h": "c",
 		"stdlib.h": "c",
-		"string.h": "c"
+		"string.h": "c",
+		"opengb_cid_switches.h": "c",
+		"ctzidn.h": "c"
 	}
 }

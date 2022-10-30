@@ -17,16 +17,16 @@
 ```
 cd src
 make clean
-make
+make test-program
 ```
 `Windows`，
 ```
 cd src
 mingw32-make clean
-mingw32-make
+mingw32-make test-program
 ```
 
-测试程序将生成为`src/main.exe`。
+测试程序将生成为`src/test.exe`。
 
 ## 实现
 
@@ -52,16 +52,16 @@ Please execute following commands in repository root directory:
 ```
 cd src
 make clean
-make
+make test-program
 ```
 `Windows`,
 ```
 cd src
 mingw32-make clean
-mingw32-make
+mingw32-make test-program
 ```
 
-The test program will be generated to `src/main.exe`.
+The test program will be generated to `src/test.exe`.
 
 ## Implementations
 

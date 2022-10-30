@@ -2,6 +2,7 @@
 
 #ifndef __utility_h_
 	#define __utility_h_
+	#include "opengb_cid_switches.h"
 
 	#include <string.h>
 

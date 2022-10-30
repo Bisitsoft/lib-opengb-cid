@@ -10,7 +10,7 @@
 //   However, if anyone changed this zone, please remember to change `Pre-commit Mode` and `Development Mode` scripts in `opengb-cid-switched.sh`, too.
 // === Editable Zone 1/2 Begin ==:
 	
-	#define _OPENGB_CID_SWITCHES_FIRST_EDIT
+	//#define _OPENGB_CID_SWITCHES_FIRST_EDIT
 	
 // :==  Editable Zone 1/2 End  ===
 
@@ -23,20 +23,10 @@ Have fun! :)
 	#endif
 	
 // === Editable Zone 2/2 Begin ==:
-	
-	//#define OPENGB_CODE_PREFER_FAST // Make code faster, but use more memories. It is mutually exclusive with OPENGB_CODE_PREFER_TIGHT.
-	#define OPENGB_CODE_PREFER_TIGHT // Make code save memories, but running slowly. It is mutually exclusive with OPENGB_CODE_PREFER_FAST.
 
-	#define OPENGB_EX_ENABLE_ECTOSTR // Enable error code converte to string functions.
+	// Enable error code converte to string functions.
+	#define OPENGB_EX_ENABLE_ECTOSTR
 	
 // :==  Editable Zone 2/2 End  ===
-
-	// The default value of OpenGB Code Preferance
-	#if !defined(OPENGB_CODE_PREFER_FAST) && !defined(OPENGB_CODE_PREFER_TIGHT)
-		#define OPENGB_CODE_PREFER_FAST
-	#endif
-	
-	// Check Defination of Code Preference
-	#include "ckdef_code_prefer.h"
 	
 #endif

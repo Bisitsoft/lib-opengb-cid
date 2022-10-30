@@ -29,19 +29,24 @@
 	#define OPENGB_CID_SEX_FEMALE	2
 
 	// CId Type (Length) Code.
-	#define OPENGB_CID_TYPE_UNKNOWN	0	// Unknown Length.
-	#define OPENGB_CID_TYPE_15CID	1	// 15 digits.
-	#define OPENGB_CID_TYPE_18CID	2	// 18 digits.
+	//   Unknown Length.
+	#define OPENGB_CID_TYPE_UNKNOWN	0
+	//   15 digits.
+	#define OPENGB_CID_TYPE_15CID	1
+	//   18 digits.
+	#define OPENGB_CID_TYPE_18CID	2
 
 	// Each part of 18 digit CId length.
-	#define OPENGB_CID_18CID_LENGTH				18	//Total length.
+	//   Total length.
+	#define OPENGB_CID_18CID_LENGTH				18
 	#define OPENGB_CID_18CID_AREA_LENGTH		6
 	#define OPENGB_CID_18CID_BIRTHDAY_LENGTH	8
 	#define OPENGB_CID_18CID_ORDER_LENGTH		3
 	#define OPENGB_CID_18CID_CHECKSUM_LENGTH	1
 	
 	// Each part of 15 digit CId length.
-	#define OPENGB_CID_15CID_LENGTH				15	//Total length.
+	//   Total length.
+	#define OPENGB_CID_15CID_LENGTH				15
 	#define OPENGB_CID_15CID_AREA_LENGTH		6
 	#define OPENGB_CID_15CID_BIRTHDAY_LENGTH	6
 	#define OPENGB_CID_15CID_ORDER_LENGTH		3
@@ -53,18 +58,8 @@
 	#define OPENGB_CID_ORDER_TYPE		unsigned short int
 	#define OPENGB_CID_CHECKSUM_TYPE	unsigned char
 	//#define OPENGB_CID_UNIVERSAL_TYPE	unsigned long int
-	
 
-	
-	// Constant used for Mod 11 verification of CId.
-	#define OPENGB_MOD11_2_MOD_CONSTANT_NUMBER 11
-	
-	// Data type of result map of Mod 11 verification of CId.
-	#if defined(OPENGB_CODE_PREFER_FAST)
-		#define OPENGB_MOD11_2_W_LIST_TYPE unsigned int
-	#elif defined(OPENGB_CODE_PREFER_TIGHT)
-		#define OPENGB_MOD11_2_W_LIST_TYPE unsigned char
-	#endif
+
 
 // CId(Unzip) data structure.
 typedef struct{
@@ -73,20 +68,22 @@ typedef struct{
 	OPENGB_CID_ORDER_TYPE order;
 	OPENGB_CID_CHECKSUM_TYPE checksum;
 }CitizenId;
-	#define OPENGB_CID_NULL {0,0,0,0} // CId(Unzip) null value.
-// CId-Zip1 data structure: area+birth+order+checksum = 20b+30b+10b+4b = 64bits.
+	// CId(Unzip) null value.
+	#define OPENGB_CID_NULL {0,0,0,0}
+	// CId-Zip1 data structure: area+birth+order+checksum = 20b+30b+10b+4b = 64bits.
 typedef unsigned long long CitizenIdZip1;
-	#define OPENGB_CID_ZIP1_NULL 0ULL //CId-Zip1 null value.
+	// CId-Zip1 null value.
+	#define OPENGB_CID_ZIP1_NULL 0ULL
 
-	#define _OPENGB_MOD11_2_METHOD_BAD_RETURN 0xFF //The return value which means happended of `_OPENGB_MOD11_2_METHOD` method.
 
-	#if defined(OPENGB_CODE_PREFER_FAST)
-		#define _OPENGB_MOD11_2_METHOD(_18cid) (_gb11643_1999_mod11_2_fst(_18cid))
-OPENGB_CID_CHECKSUM_TYPE _gb11643_1999_mod11_2_fst(const CitizenId * const _18cid);
-	#elif defined(OPENGB_CODE_PREFER_TIGHT)
-		#define _OPENGB_MOD11_2_METHOD(_18cid) (_gb11643_1999_mod11_2_tt(_18cid))
-OPENGB_CID_CHECKSUM_TYPE _gb11643_1999_mod11_2_tt(const CitizenId * const _18cid);
-	#endif
+	// Constant used for Mod 11 verification of CId.
+	#define OPENGB_MOD11_2_MOD_CONSTANT_NUMBER 11
+	// Data type of result map of Mod 11 verification of CId.
+	#define OPENGB_MOD11_2_W_LIST_TYPE unsigned int
+	// The return value which means happended of `_OPENGB_MOD11_2_METHOD` method.
+	#define _OPENGB_MOD11_2_METHOD_BAD_RETURN 0xFF
+	#define _OPENGB_MOD11_2_METHOD(_18cid) (_gb11643_1999_mod11_2(_18cid))
+OPENGB_CID_CHECKSUM_TYPE _gb11643_1999_mod11_2(const CitizenId* const _18cid);
 
 //!WIP:	Return `AreaNode` node list in WIP `lib-opengb-acd`.
 //AreaNode* GetAddress(const CitizenId* const cid);
@@ -110,22 +107,11 @@ CitizenId To15CId(const CitizenId* cid);
 
 // Verify is Cid good.
 bool VerifyCId(const CitizenId* const cid);
-inline bool _VerifyCIdArea(const CitizenId* const cid){
-//!WIP:	Use `lib-opengb-acd` to verify whether the area code is existed. \
-		Attention: Don't forget area code could be delete and change. So it will just return a warning, not error.
-	return 0<=cid->area&&cid->area<=999999;
-}
-inline bool _VerifyCIdBirthday(const CitizenId* const cid){
-	return _OPENGB_IS_8N(cid->birthday) || _OPENGB_IS_6N(cid->birthday);
-}
-inline bool _VerifyCIdOrder(const CitizenId* const cid){
-	return 0<=cid->order&&cid->order<=999;
-}
-inline bool _VerifyCIdChecksum(const CitizenId* const _18cid){
-	return _18cid->checksum==_OPENGB_MOD11_2_METHOD(_18cid);
-}
+bool _VerifyCIdArea(const CitizenId* const cid);
+bool _VerifyCIdBirthday(const CitizenId* const cid);
+bool _VerifyCIdOrder(const CitizenId* const cid);
+bool _VerifyCIdChecksum(const CitizenId* const _18cid);
 
-bool ToCId(const char const * text, const int text_Length, CitizenId* const _out);
 // Generate the error message corresponding to the error code.
 // `_out`: A buffer for saving message. Its size should have at least 16 or 19 bytes.
 // `maxSize`: The maxinum size of `_out_msg` (strlen(_out_msg)+1).

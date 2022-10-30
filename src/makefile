@@ -7,6 +7,7 @@ CC=gcc
 #   C Compiler Flags:
 flags=\
 	-finput-charset=UTF-8\
+#	-v\
 #	-Wfatal-errors \
 #	-Wextra \
 #	-Wshadow \
@@ -40,15 +41,15 @@ test-obj=test_main.o $(lib-obj)
 #dymamic-target=lib-opengb-cid.dll
 #dymamic-obj=dll.o $(lib-obj)
 
-lib-obj=opengbex.o ctzidn.o utility.o
+lib-obj=opengbex.o ctzidn.o #utility.o
 # <<< Target And Object Files <<<
 
 # >>> Makes >>>
 all: $(all-target)
 
 test-program: $(test-target)
-#static-library: $(static-target)
-#shared-library: $(shared-target)
+static-library: $(static-target)
+shared-library: $(shared-target)
 #dymamic-library: $(dymamic-target)
 # <<< Makes <<<
 
@@ -60,23 +61,23 @@ test_main.o: test_main.c
 	$(CC) $(flags) -c $< -o $@
 
 #   Libraries Targets:
-#lib-opengb-cid.a: $(static-obj)
-#	ar rcsv $@ $^
+lib-opengb-cid.a: $(static-obj)
+	ar rcsv $@ $^
 ##	ar crv $@ $^
 
-#lib-opengb-cid.so: $(shared-obj)
-#	$(CC) -shared $(flags) -o $@ $^
+lib-opengb-cid.so: $(shared-obj)
+	$(CC) -shared $(flags) -o $@ $^
 
 #lib-opengb-cid.dll: $(dymamic-obj)
-#	$(MC) -shared $(flags) -o $@ $^
+#	$(MSB) -shared $(flags) -o $@ $^
 
 #   Libraries Objects:
 opengbex.o: opengbex.c
 	$(CC) $(flags) -c $< -o $@
 ctzidn.o: ctzidn.c
 	$(CC) $(flags) -c $< -o $@
-utility.o: utility.c
-	$(CC) $(flags) -c $< -o $@
+#utility.o: utility.c
+#	$(CC) $(flags) -c $< -o $@
 # <<< Dependencies <<<
 
 # >>> Clean >>>

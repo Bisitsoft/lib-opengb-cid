@@ -4,7 +4,7 @@
 chcp 65001
 
 :: Runing the test program
-main.exe
+test.exe
 
 :: Exit
 pause
