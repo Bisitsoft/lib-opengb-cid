@@ -19,6 +19,6 @@
 	#define NULLABLE_BOOL_NULL -1
 	#define NULLABLE_BOOL_IS_TRUE(value) (value==NULLABLE_BOOL_TURE)
 	#define NULLABLE_BOOL_IS_FALSE(value) (value==NULLABLE_BOOL_FALSE)
-	#define NULLABLE_BOOL_IS_NULL(value) (value==NULLABLE_BOOL_IS_NULL)
+	#define NULLABLE_BOOL_IS_NULL(value) (value==NULLABLE_BOOL_NULL)
 
 #endif

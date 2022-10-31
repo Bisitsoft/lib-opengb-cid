@@ -8,6 +8,11 @@
 		"stdlib.h": "c",
 		"string.h": "c",
 		"opengb_cid_switches.h": "c",
-		"ctzidn.h": "c"
+		"ctzidn.h": "c",
+		"test.h": "c",
+		"libcompat.h": "c",
+		"check.h": "c",
+		"stddef.h": "c",
+		"utility.h": "c"
 	}
 }

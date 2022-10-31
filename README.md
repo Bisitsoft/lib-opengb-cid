@@ -1,4 +1,4 @@
-[中文](#lib-opengb-cid-库)|[English](#lib-opengb-cid-library)
+[中文](./README.md)|[English](./README.en-US.md)
 
 ---
 
@@ -10,20 +10,37 @@
 
 ## 编译
 
+建议使用`make`或`mingw32-make`等工具帮助编译，`makefile`默认使用`gcc`作为编译工具。
+
+### 编译静态库
+
+编译静态库依赖生成工具`ar`。
+
+请在仓库根目录下执行：
+```bash
+cd src
+make static-library #或：mingw32-make static-library
+```
+
+库将生成为`src/lib-opengb-cid.a`。
+
+### 编译共享库
+
+请在仓库根目录下执行：
+```bash
+cd src
+make shared-library #或：mingw32-make shared-library
+```
+
+库将生成为`src/lib-opengb-cid.so`。
+
 ### 编译测试程序
 
 请在仓库根目录下执行：
-`Linux`，
-```
+```bash
 cd src
-make clean
-make test-program
-```
-`Windows`，
-```
-cd src
-mingw32-make clean
-mingw32-make test-program
+make test #或：mingw32-make test
+./test.exe
 ```
 
 测试程序将生成为`src/test.exe`。
@@ -37,48 +54,13 @@ mingw32-make test-program
 
 ---
 
-# lib-opengb-cid Library
+# 贡献者
 
-`OpenGB` is a library for implement functions of `GB` (China national standrad).
-
-`lib-opengb-cid` is for `GB 11643-1999` (Citizen identification number).
-
-## Compilation
-
-### Compile Test Program
-
-Please execute following commands in repository root directory:
-`Linux`,
-```
-cd src
-make clean
-make test-program
-```
-`Windows`,
-```
-cd src
-mingw32-make clean
-mingw32-make test-program
-```
-
-The test program will be generated to `src/test.exe`.
-
-## Implementations
-
-**The current IDE is `VSCode`.**
-
-<!--[Library Explainations](./doc/en-US/lib-explain.md)-->
-View the comment in the code file for explainations.
-
----
-
-# 贡献者 Contributors
-
-## 代码 Programmer
+## 代码
 * [Orange233](https://github.com/Orange23333)
 
 ---
 
 **Copyright (c) [Bisitsoft](https://www.ourorangenet.com) 2022.**
 
-View code on **[Github](https://github.com/Bisitsoft/lib-opengb-cid).**
+在 **[Github](https://github.com/Bisitsoft/lib-opengb-cid).** 上浏览源代码。
