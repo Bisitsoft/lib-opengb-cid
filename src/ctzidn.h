@@ -20,7 +20,7 @@
 		也可以是定长18位字符数组。
 	结构体表示法：将区号、生日、顺序码、校验码分别存储。
 		整数表示法：分别存储于int32、int32、int16、byte中。 <-可扩展性较高 <<<目前用法
-		位表示法（即本库中的Zip1）：20b、27b、10b、4b共61b，需8字节。 <- 不易维护与使用 <<<20+30+10+4=64b
+		位表示法（即本库中的Zip1）：20b、27b、10b、4b共61b，需8字节。 <- 不易维护与使用 <<<20+29+10+4=63b
 		紧凑位表示法：行政区共34个，次级区编号最多有X（需统计）个，5+14=19位表示区号。 <- 不易维护与使用
 */
 
@@ -61,6 +61,7 @@
 
 
 
+//!WIP: CitizenId -> PRCCitizenId
 // CId(Unzip) data structure.
 typedef struct{
 	OPENGB_CID_AREA_TYPE area;
@@ -71,37 +72,32 @@ typedef struct{
 	// CId(Unzip) null value.
 	#define OPENGB_CID_NULL {0,0,0,0}
 	// CId-Zip1 data structure: area+birth+order+checksum = 20b+30b+10b+4b = 64bits.
-typedef unsigned long long CitizenIdZip1;
+typedef long long CitizenIdZip1;
 	// CId-Zip1 null value.
 	#define OPENGB_CID_ZIP1_NULL 0ULL
-
-
-	// Constant used for Mod 11 verification of CId.
-	#define OPENGB_MOD11_2_MOD_CONSTANT_NUMBER 11
-	// Data type of result map of Mod 11 verification of CId.
-	#define OPENGB_MOD11_2_W_LIST_TYPE unsigned int
-	// The return value which means happended of `_OPENGB_MOD11_2_METHOD` method.
-	#define _OPENGB_MOD11_2_METHOD_BAD_RETURN 0xFF
-	#define _OPENGB_MOD11_2_METHOD(_18cid) (_gb11643_1999_mod11_2(_18cid))
-OPENGB_CID_CHECKSUM_TYPE _gb11643_1999_mod11_2(const CitizenId* const _18cid);
 
 //!WIP:	Return `AreaNode` node list in WIP `lib-opengb-acd`.
 //AreaNode* GetAddress(const CitizenId* const cid);
 // Return `OPENGB_CID_SEX_MALE` or `OPENGB_CID_SEX_FEMALE`.
-int GetSex(const CitizenId* const cid);
+int CId_GetSex(const CitizenId* const cid);
 
 // Accroding to cid.birth word's number of digit, detected whether `cid` has 18 digits.
 bool Is18CId(const CitizenId* const cid);
 // Accroding to cid.birth word's number of digit, detected whether `cid` has 15 digits.
 bool Is15CId(const CitizenId* const cid);
+// 0: Equals; 1: x>y; -1: x<y.
+// It will zipped `x` and `y`, and use `CompareZip1CId` to compare.
+int CompareCId(const CitizenId* const x, const CitizenId* const y);
+// 0: Equals; 1: x>y; -1: x<y.
+int CompareZip1CId(const CitizenIdZip1 x, const CitizenIdZip1 y);
 bool IsNullCId(const CitizenId* const cid);
-bool IsNullCIdZip1(const CitizenIdZip1 cid);
+bool IsNullZip1CId(const CitizenIdZip1 cid);
+//!WIP: OPENGB_CID_TYPE_TYPE GetCIdType(const CitizenId* const cid)
 
-// Copy data in `CitizenId` by `memcpy` method.
-CitizenId CloneCId(const CitizenId* cid);
 // If `cid` is 18-digit CId, it will return a `cid`'s copy.
 CitizenId To18CId(const CitizenId* cid); 
 // If `cid` is 15-digit CId, it will return a `cid`'s copy.
+// By the way, it doesn't matter if CId was in the 20th century.
 CitizenId To15CId(const CitizenId* cid);
 
 
@@ -116,15 +112,22 @@ bool _VerifyCIdChecksum(const CitizenId* const _18cid);
 // `_out`: A buffer for saving message. Its size should have at least 16 or 19 bytes.
 // `maxSize`: The maxinum size of `_out_msg` (strlen(_out_msg)+1).
 // Return -1 means failure. Return any val >0 means success and the value is the length of `_out`.
-int ToString(const CitizenId* const cid, char* const _out, const int out_buffer_size);
+int CId_ToString(const CitizenId* const cid, char* const _out, const int out_buffer_size);
 
-CitizenIdZip1 Zip1(const CitizenId* const cid);
-#define _UNZIP1_CID_AREA(cid) (((cid) >> 44) & 0xFFFFF)
-#define _UNZIP1_CID_BIRTHDAY(cid) (((cid) >> 14) & 0x3FFFFFFF)
-#define _UNZIP1_CID_ORDER(cid) (((cid) >> 4) & 0x3FF)
-#define _UNZIP1_CID_CHECKSUM(cid) ((cid) & 0xF)
-CitizenId Unzip1(const CitizenIdZip1 cid);
+CitizenIdZip1 CId_ToZip1(const CitizenId* const cid);
+	#define _UNZIP1_CID_AREA(cid) (((cid) >> 43) & 0xFFFFF)
+	#define _UNZIP1_CID_BIRTHDAY(cid) (((cid) >> 14) & 0x1FFFFFFF)
+	#define _UNZIP1_CID_ORDER(cid) (((cid) >> 4) & 0x3FF)
+	#define _UNZIP1_CID_CHECKSUM(cid) ((cid) & 0xF)
+CitizenId CId_FromZip1(const CitizenIdZip1 cid);
 
+	// Constant used for Mod 11 verification of CId.
+	#define OPENGB_MOD11_2_MOD_CONSTANT_NUMBER 11
+	// Data type of result map of Mod 11 verification of CId.
+	#define OPENGB_MOD11_2_W_LIST_TYPE unsigned int
+	// The return value which means happended of `_OPENGB_MOD11_2_METHOD` method.
+	#define _OPENGB_MOD11_2_METHOD_BAD_RETURN 0xFF
+	#define _OPENGB_MOD11_2_METHOD(_18cid) (_gb11643_1999_mod11_2(_18cid))
+OPENGB_CID_CHECKSUM_TYPE _gb11643_1999_mod11_2(const CitizenId* const _18cid);
 
-
-#endif
+#endif // __ctzidn_h_

@@ -4,11 +4,16 @@
 #   C Compiler:
 CC=gcc
 
+#	Test Source Code Directory
+TEST_SRC=./tests/
+#	libcheck Source Code Directory
+LIBCHECK_SRC=../3rd-part/check-0.15.2/src/
+
 #   C Compiler Flags:
 flags=\
 	-finput-charset=UTF-8\
 	-std=c17\
-	-I "../3rd-part/check-0.15.2/src" -I "." -I "./tests"\
+	-I "$(LIBCHECK_SRC)" -B "$(LIBCHECK_SRC)../" -I "." -I "$(TEST_SRC)"\
 #	-v\
 #	-Wfatal-errors \
 #	-Wextra \
@@ -25,17 +30,14 @@ flags=\
 
 
 #   !!! ^ remain 2 empty line above ^ !!!
-
-#	Test Source Code Directory
-TD=test/
 # <<< Compiler <<<
 
 # >>> Target And Object Files >>>
-all-target=$(test-target) $(static-target) $(shared-target) #$(dymamic-target)
-all-obj=$(test-obj) $(static-obj) $(shared-obj) #$(dymamic-obj)
+all-target=$(test-target) $(demo-target) $(static-target) $(shared-target) #$(dymamic-target)
+all-obj=$(test-obj) $(demo-obj) $(static-obj) $(shared-obj) #$(dymamic-obj)
 
 test-target=test.exe
-test-obj=test.o $(lib-obj) $(disabled-lib-obj) $(test-lib-obj)
+test-obj=test.o $(lib-obj) $(disabled-lib-obj) $(libcheck-obj) $(test-lib-obj)
 
 demo-target=demo.exe
 demo-obj=demo.o $(lib-obj)
@@ -45,6 +47,8 @@ static-obj=$(lib-obj)
 
 shared-target=lib-opengb-cid.so
 shared-obj=$(lib-obj)
+
+libcheck-obj=check.h check_error.o check_list.o check_log.o check_msg.o check_pack.o check_print.o check_run.o check_str.o check.o
 
 #dymamic-target=lib-opengb-cid.dll
 #dymamic-obj=dll.o $(lib-obj)
@@ -65,25 +69,16 @@ shared-library: $(shared-target)
 # <<< Makes <<<
 
 # >>> Dependencies >>>
-#	Demo Program:
+#	Demo Targets:
 demo.exe: $(demo-obj)
 	$(CC) $(flags) -o $@ $^
-demo_main.o: $(TD)demo.c
+demo.o: $(TEST_SRC)demo.c
 	$(CC) $(flags) -c $< -o $@
 
-#   Test Program:
+#   Test Targets:
 test.exe: $(test-obj)
 	$(CC) $(flags) -o $@ $^
-test_main.o: $(TD)test.c
-	$(CC) $(flags) -c $< -o $@
-
-ctzidn.test.o: $(TD)ctzidn.test.c
-	$(CC) $(flags) -c $< -o $@
-moretype.test.o: $(TD)moretype.test.c
-	$(CC) $(flags) -c $< -o $@
-opengbex.test.o: $(TD)opengbex.test.c
-	$(CC) $(flags) -c $< -o $@
-utility.test.o: $(TD)utility.test.c
+test.o: $(TEST_SRC)test.c
 	$(CC) $(flags) -c $< -o $@
 
 #   Libraries Targets:
@@ -97,6 +92,16 @@ lib-opengb-cid.so: $(shared-obj)
 #lib-opengb-cid.dll: $(dymamic-obj)
 #	$(MSB) -shared $(flags) -o $@ $^
 
+#	Test Objects
+ctzidn.test.o: $(TEST_SRC)ctzidn.test.c
+	$(CC) $(flags) -c $< -o $@
+moretype.test.o: $(TEST_SRC)moretype.test.c
+	$(CC) $(flags) -c $< -o $@
+opengbex.test.o: $(TEST_SRC)opengbex.test.c
+	$(CC) $(flags) -c $< -o $@
+utility.test.o: $(TEST_SRC)utility.test.c
+	$(CC) $(flags) -c $< -o $@
+
 #   Libraries Objects:
 opengbex.o: opengbex.c
 	$(CC) $(flags) -c $< -o $@
@@ -104,7 +109,31 @@ ctzidn.o: ctzidn.c
 	$(CC) $(flags) -c $< -o $@
 utility.o: utility.c
 	$(CC) $(flags) -c $< -o $@
+
+#	libcheck Objects:
 # <<< Dependencies <<<
+check.h:
+	cd "$(LIBCHECK_SRC)../"
+	make distclean
+	./configure
+check_error.o: $(LIBCHECK_SRC)check_error.c
+	$(CC) $(flag) -c $< -o $@
+check_list.o: $(LIBCHECK_SRC)check_list.c
+	$(CC) $(flag) -c $< -o $@
+check_log.o: $(LIBCHECK_SRC)check_log.c
+	$(CC) $(flag) -c $< -o $@
+check_msg.o: $(LIBCHECK_SRC)check_msg.c
+	$(CC) $(flag) -c $< -o $@
+check_pack.o: $(LIBCHECK_SRC)check_pack.c
+	$(CC) $(flag) -c $< -o $@
+check_print.o: $(LIBCHECK_SRC)check_print.c
+	$(CC) $(flag) -c $< -o $@
+check_run.o: $(LIBCHECK_SRC)check_run.c
+	$(CC) $(flag) -c $< -o $@
+check_str.o: $(LIBCHECK_SRC)check_str.c
+	$(CC) $(flag) -c $< -o $@
+check.o: $(LIBCHECK_SRC)check.c
+	$(CC) $(flag) -c $< -o $@
 
 # >>> Clean >>>
 clean:

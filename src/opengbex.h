@@ -63,7 +63,7 @@ void opengb_SetLastOpenGBErrorCode(OPENGB_ERROR_CODE_TYPE errorCode);
 void opengb_CleanLastOpenGBErrorCode();
 
 	// Throw error code. In fact, it just set last error code.
-	#define _OPENGB_THROW(errorCode) opengb_CleanLastOpenGBErrorCode();
+	#define _OPENGB_THROW(errorCode) opengb_SetLastOpenGBErrorCode(errorCode);
 	#define _OPENGB_TRY opengb_CleanLastOpenGBErrorCode();
 	#define _OPENGB_CATCH(errorCode) if(opengb_GetLastOpenGBErrorCode()==(errorCode)){
 	#define _OPENGB_CATCHX(errorCode) }else if(opengb_GetLastOpenGBErrorCode()==(errorCode)){
@@ -76,6 +76,6 @@ void opengb_CleanLastOpenGBErrorCode();
 // `maxSize`: The maxinum size of `_out_msg` (strlen(_out_msg)+1).
 // Return -1 means failure. Return any val >0 means success and the value is the length of `_out_msg`.
 int opengb_ErrorCodeToString(const OPENGB_ERROR_CODE_TYPE error_code, char* _out_msg, const int maxSize);
-	#endif
+	#endif // OPENGB_EX_ENABLE_ECTOSTR
 
-#endif
+#endif // __opengbex_h_

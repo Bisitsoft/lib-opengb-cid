@@ -1,12 +1,11 @@
-# src
-
-src/*.o
-src/main.exe
-
-# End of https://www.toptal.com/developers/gitignore/api/c
-
 # VSCode
 .vscode/*.log
+
+# C/C++
+*.o
+
+# Autotools
+autom4te.cache/
 
 # ADD
 CheckList.txt

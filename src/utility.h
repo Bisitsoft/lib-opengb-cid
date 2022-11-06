@@ -15,4 +15,4 @@ inline void SkipChars(const char * chars, const int chars_n, int * const now_i, 
 // The function will set the index of the first char which isn't whitespace to `now_i`.
 inline void SkipWhiteSpace(int * const now_i, const char * str);
 
-#endif
+#endif // __utility_h_

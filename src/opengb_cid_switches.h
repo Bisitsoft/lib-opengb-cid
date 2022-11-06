@@ -20,7 +20,7 @@ It is telling you here is header file with many macros of switch compilation. \
 If you has known this, you can comment out the line "#define _OPENGB_CID_SWITCHES_FIRST_EDIT" shown above, \
 and keep going your work. \
 Have fun! :)
-	#endif
+	#endif // _OPENGB_CID_SWITCHES_FIRST_EDIT
 	
 // === Editable Zone 2/2 Begin ==:
 
@@ -29,4 +29,4 @@ Have fun! :)
 	
 // :==  Editable Zone 2/2 End  ===
 	
-#endif
+#endif // __opengb_cid_switches_h_

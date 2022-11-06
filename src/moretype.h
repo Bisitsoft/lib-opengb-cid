@@ -21,4 +21,4 @@
 	#define NULLABLE_BOOL_IS_FALSE(value) (value==NULLABLE_BOOL_FALSE)
 	#define NULLABLE_BOOL_IS_NULL(value) (value==NULLABLE_BOOL_NULL)
 
-#endif
+#endif // __moretype_h_

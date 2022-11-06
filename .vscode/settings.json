@@ -13,6 +13,8 @@
 		"libcompat.h": "c",
 		"check.h": "c",
 		"stddef.h": "c",
-		"utility.h": "c"
+		"utility.h": "c",
+		"ctype.h": "c",
+		"stdio.h": "c"
 	}
 }

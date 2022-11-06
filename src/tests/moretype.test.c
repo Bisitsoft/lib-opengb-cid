@@ -24,7 +24,7 @@ Suite* make_moretype_suite(){
 	Suite *s=suite_create("moretype");
 	TCase *tc=tcase_create("moretype.h");
 
-	suite_add_tcase(s,tc);
+	suite_add_tcase(s, tc);
 
 	tcase_add_test(tc, test_moretype_nullable_bool_is_ture);
 	tcase_add_test(tc, test_moretype_nullable_bool_is_false);

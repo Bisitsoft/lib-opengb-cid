@@ -63,4 +63,4 @@ int opengb_ErrorCodeToString(const OPENGB_ERROR_CODE_TYPE error_code, char* _out
 		return msgLen;
 	}
 }
-#endif
+#endif // OPENGB_EX_ENABLE_ECTOSTR

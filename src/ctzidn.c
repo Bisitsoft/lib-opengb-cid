@@ -13,7 +13,7 @@
 
 
 
-int GetSex(const CitizenId* const cid){
+int CId_GetSex(const CitizenId* const cid){
 	return cid->order%2 == 0 ? OPENGB_CID_SEX_FEMALE : OPENGB_CID_SEX_MALE;
 }
 
@@ -25,6 +25,22 @@ bool Is18CId(const CitizenId* const cid){
 bool Is15CId(const CitizenId* const cid){
 	return _OPENGB_IS_6N(cid->birthday); //理论上应该不存在190X年的生日。 Theoretically, there should be no birthday in 190X.
 }
+int CompareCId(const CitizenId* const x, const CitizenId* const y){
+	CitizenIdZip1 zipped_x=CId_ToZip1(x);
+	CitizenIdZip1 zipped_y=CId_ToZip1(y);
+
+	return CompareZip1CId(zipped_x,zipped_y);
+}
+int CompareZip1CId(const CitizenIdZip1 x, const CitizenIdZip1 y){
+	if(x>y){
+		return 1;
+	}else if (x==y){
+		return 0;
+	}else{
+		return -1;
+	}
+	
+}
 bool IsNullCId(const CitizenId* const cid){
 	return cid->area==0&&cid->birthday==0&&cid->order==0&&cid->checksum==0;
 }
@@ -35,11 +51,6 @@ bool IsNullCIdZip1(const CitizenIdZip1 cid){
 
 
 
-CitizenId CloneCId(const CitizenId* cid){
-	CitizenId r;
-	memcpy(&r,cid,sizeof(CitizenId));
-	return r;
-}
 CitizenId To18CId(const CitizenId* cid){
 	CitizenId r=OPENGB_CID_NULL;
 	if(Is15CId(cid)){
@@ -48,7 +59,7 @@ CitizenId To18CId(const CitizenId* cid){
 		r.order=cid->order;
 		r.checksum=_OPENGB_MOD11_2_METHOD(&r);
 	}else if(Is18CId(cid)){
-		r=CloneCId(cid);
+		return *cid;
 	}else{
 		_OPENGB_THROW(OPENGB_BASE_EC_ARGUMENT_NULL)
 	}
@@ -62,7 +73,7 @@ CitizenId To15CId(const CitizenId* cid){
 		r.order=cid->order;
 		r.checksum=0;
 	}else if(Is15CId(cid)){
-		r=CloneCId(cid);
+		return *cid;
 	}else{
 		_OPENGB_THROW(OPENGB_BASE_EC_ARGUMENT_NULL)
 	}
@@ -106,37 +117,38 @@ inline bool _VerifyCIdChecksum(const CitizenId* const _18cid){
 //bool ToCId(const char const * text, const int text_Length, CitizenId * const _out){
 //	strnlen_s
 //}
-int ToString(const CitizenId * const cid, char* const _out, const int out_buffer_size){
-	errno_t r;
+int CId_ToString(const CitizenId * const cid, char* const _out, const int out_buffer_size){
 	if(Is18CId(cid)){
 		if(out_buffer_size<19){
 			_OPENGB_THROW(OPENGB_BASE_EC_BUFFER_NOT_ENOUGH)
 			return -1;
 		}
-		return sprintf_s(_out,out_buffer_size,"%06u%08u%03u%1u",cid->area,cid->birthday,cid->order,cid->checksum);
+		//return sprintf_s(_out,out_buffer_size,"%06u%08u%03u%c",cid->area,cid->birthday,cid->order,(cid->checksum<10?'0'+cid->checksum:'X'));
+		return sprintf(_out,"%06u%08u%03u%c",cid->area,cid->birthday,cid->order,(cid->checksum<10?'0'+cid->checksum:'X'));
 	}else if(Is15CId(cid)){
 		if(out_buffer_size<16){
 			_OPENGB_THROW(OPENGB_BASE_EC_BUFFER_NOT_ENOUGH)
 			return -1;
 		}
-		return sprintf_s(_out,out_buffer_size,"%06u%06u%03u",cid->area,cid->birthday,cid->order);
+		//return sprintf_s(_out,out_buffer_size,"%06u%06u%03u",cid->area,cid->birthday,cid->order);
+		return sprintf(_out,"%06u%06u%03u",cid->area,cid->birthday,cid->order);
 	}
 
-	_OPENGB_THROW(OPENGB_CID_EC_CID_DATA_ERROR_MSG)
+	_OPENGB_THROW(OPENGB_CID_EC_CID_DATA_ERROR)
 	return -1;
 }
 
-CitizenIdZip1 Zip1(const CitizenId* const cid){
+CitizenIdZip1 CId_ToZip1(const CitizenId* const cid){
 	CitizenIdZip1 r=0;
 
-	r|=((CitizenIdZip1)cid->area)<<44;
-	r|=((CitizenIdZip1)cid->birthday)<<14;
-	r|=((CitizenIdZip1)cid->order)<<4;
-	r|=(CitizenIdZip1)cid->checksum;
+	r|=((CitizenIdZip1)(cid->area))<<43;
+	r|=((CitizenIdZip1)(cid->birthday))<<14;
+	r|=((CitizenIdZip1)(cid->order))<<4;
+	r|=(CitizenIdZip1)(cid->checksum);
 
 	return r;
 }
-CitizenId Unzip1(const CitizenIdZip1 cid){
+CitizenId CId_FromZip1(const CitizenIdZip1 cid){
 	CitizenId r;
 
 	r.area=_UNZIP1_CID_AREA(cid);

@@ -7,8 +7,10 @@
 int main(){
 	SRunner* sr=NULL;
 
-	sr=srunner_create(make_moretype_suite());
+	sr=srunner_create(make_opengbex_suite());
+	srunner_add_suite(sr, make_moretype_suite());
 	srunner_add_suite(sr, make_utility_suite());
+	srunner_add_suite(sr, make_ctzidn_suite());
 
 	srunner_run_all(sr, CK_VERBOSE);
 	int fn=srunner_ntests_failed(sr);

@@ -10,18 +10,14 @@ void clear_stdin();
 
 // GB11643-1999文档的附录B中给出的身份证号例子：
 //   11010519491231002X
-//   440524188001010014 // 1880，你没看错
+//   440524188001010014 // 你没看错，就是1880。
 
 int main(){
 	unsigned long long _out;
 	OPENGB_CID_CHECKSUM_TYPE checksum;
 	
-	CitizenId cid;
-
-	OPENGB_ERROR_CODE_TYPE ec=OPENGB_CID_EC_NOT_18CID;
-	char buffer[200];
-	opengb_ErrorCodeToString(ec, buffer, sizeof(buffer));
-	printf("Test openex.h: %d: \"%s\"\n",ec,buffer);
+	CitizenId cid, temp_cid;
+	CitizenIdZip1 zipped_cid;
 	
 	while(true){
 		printf("请输入一个18位身份证号码: ");
@@ -39,8 +35,6 @@ int main(){
 		if(!read_cid_checksum(&checksum)) { clear_stdin(); continue; }
 		cid.checksum = checksum;
 		
-		checksum = _OPENGB_MOD11_2_METHOD(&cid);
-		
 		printf(
 			"输入的身份证号是：%06d%08d%03d%c\n",
 			cid.area,
@@ -51,13 +45,25 @@ int main(){
 		printf(
 			"输入的身份证号中的顺序码是%d，性别是:%s。\n",
 			cid.order,
-			GetSex(&cid) ? "男" : "女"
+			CId_GetSex(&cid) ? "男" : "女"
 		);
+		checksum = _OPENGB_MOD11_2_METHOD(&cid);
 		printf(
 			"输入的身份证号中的校验码（末尾数字）是%c，校验码是%c，校验算法结果：%s\n",
 			cid_checksum_to_char(cid.checksum),
 			cid_checksum_to_char(checksum),
 			checksum==cid.checksum?"正确√":"错误×"
+		);
+		zipped_cid = CId_ToZip1(&cid);
+		printf(
+			"Zip1编码：%lld\n",
+			zipped_cid
+		);
+		temp_cid = To15CId(&cid);
+		zipped_cid = CId_ToZip1(&temp_cid);
+		printf(
+			"Zip1(To15CId)编码：%llu\n",
+			zipped_cid
 		);
 	}
 
