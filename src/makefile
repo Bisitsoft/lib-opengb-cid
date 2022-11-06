@@ -30,7 +30,7 @@ flags=\
 all-target=$(static-target) $(shared-target) #$(dymamic-target)
 all-obj=$(static-obj) $(shared-obj) #$(dymamic-obj)
 
-tatic-target=lib-opengb-cid.a
+static-target=lib-opengb-cid.a
 static-obj=$(lib-obj)
 
 shared-target=lib-opengb-cid.so
@@ -40,14 +40,11 @@ shared-obj=$(lib-obj)
 #dymamic-obj=dll.o $(lib-obj)
 
 lib-obj=opengbex.o ctzidn.o
-disabled-lib-obj=utility.o
 # <<< Target And Object Files <<<
 
 # >>> Makes >>>
-#all: $(all-target)
+all: $(all-target)
 
-demo: $(demo-target)
-test: $(test-target)
 static-library: $(static-target)
 shared-library: $(shared-target)
 #dymamic-library: $(dymamic-target)
@@ -66,22 +63,10 @@ lib-opengb-cid.so: $(shared-obj)
 #lib-opengb-cid.dll: $(dymamic-obj)
 #	$(MSB) -shared $(flags) -o $@ $^
 
-#	Test Objects
-ctzidn.test.o: $(TEST_SRC)ctzidn.test.c
-	$(CC) $(flags) -c $< -o $@
-moretype.test.o: $(TEST_SRC)moretype.test.c
-	$(CC) $(flags) -c $< -o $@
-opengbex.test.o: $(TEST_SRC)opengbex.test.c
-	$(CC) $(flags) -c $< -o $@
-utility.test.o: $(TEST_SRC)utility.test.c
-	$(CC) $(flags) -c $< -o $@
-
 #   Libraries Objects:
 opengbex.o: opengbex.c
 	$(CC) $(flags) -c $< -o $@
 ctzidn.o: ctzidn.c
-	$(CC) $(flags) -c $< -o $@
-utility.o: utility.c
 	$(CC) $(flags) -c $< -o $@
 
 # <<< Dependencies <<<
