@@ -34,17 +34,6 @@ make shared-library #Or: mingw32-make shared-library
 
 The library will be generated to `src/lib-opengb-cid.so`.
 
-### Compile Test Program
-
-Please execute following commands in repository root directory:
-```bash
-cd src
-make test #Or: mingw32-make test
-./test.exe
-```
-
-The test program will be generated to `src/test.exe`.
-
 ## Implementations
 
 **The current IDE is `VSCode`.**

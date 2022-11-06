@@ -34,17 +34,6 @@ make shared-library #或：mingw32-make shared-library
 
 库将生成为`src/lib-opengb-cid.so`。
 
-### 编译测试程序
-
-请在仓库根目录下执行：
-```bash
-cd src
-make test #或：mingw32-make test
-./test.exe
-```
-
-测试程序将生成为`src/test.exe`。
-
 ## 实现
 
 **当前是用的IDE是`VSCode`。**
