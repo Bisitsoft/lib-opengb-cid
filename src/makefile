@@ -111,7 +111,6 @@ utility.o: utility.c
 	$(CC) $(flags) -c $< -o $@
 
 #	libcheck Objects:
-# <<< Dependencies <<<
 check.h:
 	cd "$(LIBCHECK_SRC)../"
 	make distclean
@@ -134,6 +133,7 @@ check_str.o: $(LIBCHECK_SRC)check_str.c
 	$(CC) $(flag) -c $< -o $@
 check.o: $(LIBCHECK_SRC)check.c
 	$(CC) $(flag) -c $< -o $@
+# <<< Dependencies <<<
 
 # >>> Clean >>>
 clean:
