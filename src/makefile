@@ -42,7 +42,7 @@ test-obj=test.o $(lib-obj) $(disabled-lib-obj) $(libcheck-obj) $(test-lib-obj)
 demo-target=demo.exe
 demo-obj=demo.o $(lib-obj)
 
-tatic-target=lib-opengb-cid.a
+static-target=lib-opengb-cid.a
 static-obj=$(lib-obj)
 
 shared-target=lib-opengb-cid.so
